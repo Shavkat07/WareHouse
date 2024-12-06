@@ -1,0 +1,24 @@
+[
+    {
+        "username": "senpae",
+        "password": "senpae9300557"
+    },
+    {
+        "id": 2,
+        "username": "men",
+        "password": "0234",
+        "first_name": "ali",
+        "last_name": "qodirali",
+        "phone": "78945612",
+        "role": "user"
+    },
+    {
+        "id": 3,
+        "username": "shavkat",
+        "password": "12345",
+        "first_name": "mamarayim",
+        "last_name": "idan",
+        "phone": "7895452",
+        "role": "admin"
+    }
+]
