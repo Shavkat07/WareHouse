@@ -108,6 +108,28 @@ def register():
             print(f"Xatolik: {e}")
             print("Iltimos, ma'lumotlarni qaytadan kiriting.\n")
 
+# Login funksiyasi
+def login():
+    try:
+        users = load_data()  # JSON fayldan foydalanuvchilarni yuklash
+
+        username = input("Username kiriting: ").strip()
+        password = getpass.getpass("Password kiriting: ").strip()
+
+        hashed_password = hash_password(password)  # Kiritilgan parolni xeshlash
+
+        # Foydalanuvchini qidirish
+        for user in users:
+            if user["username"] == username and user["password"] == hashed_password:
+                print(f"Xush kelibsiz, {user['first_name']} {user['last_name']}! Sizning rolingiz: {user['role']}.")
+                return  # Login muvaffaqiyatli bo'lsa, funksiyani tugatish
+
+        # Agar foydalanuvchi topilmasa
+        print("Username yoki password noto'g'ri.")
+    except Exception as e:
+        print(f"Xatolik yuz berdi: {e}")
+
+
 # Foydalanuvchilarni ko'rish funksiyasi
 def view_users():
     try:
@@ -131,11 +153,12 @@ def view_users():
 # Bosh menyu
 if __name__ == "__main__":
     while True:
-        print("\n=== Ro'yxatdan o'tish ===")
+        print("\n=== Tizim ===")
 
         print("1. Ro'yxatdan o'tish")
         print("2. Foydalanuvchilarni ko'rish")
-        print("3. Chiqish")
+        print("3. Login")
+        print("4. Chiqish")
         choice = input("Tanlovingizni kiriting: ").strip()
 
         if choice == "1":
@@ -143,6 +166,8 @@ if __name__ == "__main__":
         elif choice == "2":
             view_users()
         elif choice == "3":
+            login()
+        elif choice == "4":
             print("Tizimdan chiqildi.")
             break
         else:
