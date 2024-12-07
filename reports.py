@@ -1,4 +1,3 @@
-from os import name
 
 from fpdf import FPDF
 import json
@@ -67,7 +66,7 @@ if __name__ == "__main__":
     end_date = datetime.fromisoformat(end_date_input)
 
     # Ma'lumotlarni yuklash
-    data = load_data(file_name='transactions.json')
+    data = load_data(file_name='Database/transactions.json')
 
     # Hisobot yaratish
     generate_report(data, start_date, end_date)
