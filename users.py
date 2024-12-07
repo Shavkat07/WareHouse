@@ -1,9 +1,14 @@
 import json
 import os
+import getpass
+import hashlib
+from importlib.metadata import files
 
 # JSON fayl nomi
 DATA_FILE = "users.json"
 ADMIN_PASSWORD = "amdin12345"
+MANAGER_PASSWORD = "meneger12345"
+DIRECTOR_PSSWORD = "director12345"
 
 # JSON faylni yaratish yoki o'qish
 def load_data():
@@ -18,49 +23,90 @@ def save_data(data):
     with open(DATA_FILE, "w") as file:
         json.dump(data, file, indent=4)
 
+# Parolni xeshlash funksiyasi
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
 # Ro'yxatdan o'tish funksiyasi
 def register():
-    # Foydalanuvchi ma'lumotlarini yuklash
-    users = load_data()
+    while True:  # Noto'g'ri ma'lumotlar uchun qaytadan urinib ko'rish
+        try:
+            # Foydalanuvchi ma'lumotlarini yuklash
+            users = load_data()
 
-    # Foydalanuvchidan ma'lumotlarni kiritish
-    username = input("Username kiriting: ").strip()
-    password = input("Password kiriting: ").strip()
-    first_name = input("Ismingizni kiriting: ").strip()
-    last_name = input("Familiyangizni kiriting: ").strip()
-    phone = input("Telefon raqamingizni kiriting: ").strip()
-    role = input("Rolingizni kiriting (masalan, user yoki admin): ").strip().lower()
+            # Foydalanuvchidan ma'lumotlarni kiritish
+            username = input("Username kiriting: ").strip()
+            if not username:
+                raise ValueError("Username kiritilishi shart.")
+            # Takroriy username tekshiruvi
+            for user in users:
+                if user['username'] == username:
+                    raise ValueError("Bu username allaqachon mavjud. Iltimos, boshqa username tanlang.")
 
-    # Tekshiruv: Username takrorlanmasligi kerak
-    for user in users:
-        if user["username"] == username:
-            print("❌ Bu username allaqachon mavjud. Iltimos, boshqa username tanlang.")
-            return
+            # Parolni ko'rinmas holatda kiritish
+            password = getpass.getpass("Password kiriting: ").strip()
+            if not password:
+                raise ValueError("Password kiritilishi shart.")
+            hashed_password = hash_password(password)  # Parolni xeshlash
 
-    if role == "admin":
-        admin_password = input("Admin parolni kiriting: ").strip()
-        if admin_password != ADMIN_PASSWORD:
-            print("Admin parol noto'g'ri royhatdan otish bekor qilindi.")
+            first_name = input("Ismingizni kiriting: ").strip()
+            if len(first_name) > 50 or not first_name:
+                raise ValueError("Ism uzunligi 50 ta belgidan oshmasligi va bo'sh bo'lmasligi kerak.")
 
+            last_name = input("Familiyangizni kiriting: ").strip()
+            if len(last_name) > 50 or not last_name:
+                raise ValueError("Familiya uzunligi 50 ta belgidan oshmasligi va bo'sh bo'lmasligi kerak.")
 
-    # Yangi foydalanuvchi identifikatori
-    user_id = len(users) + 1
+            phone = input("Telefon raqamingizni kiriting (9 ta raqam): ").strip()
+            if not (phone.isdigit() and len(phone) == 9):
+                raise ValueError("Telefon raqami noto'g'ri. U 9 ta raqamdan iborat bo'lishi kerak.")
+            # Takroriy telefon raqami tekshiruvi
+            for user in users:
+                if user["phone"] == phone:
+                    raise ValueError("Bu telefon raqami allaqachon mavjud. Iltimos, boshqa raqam kiriting.")
 
-    # Yangi foydalanuvchini qo'shish
-    new_user = {
-        "id": user_id,
-        "username": username,
-        "password": password,  # Parol xeshlanishi mumkin
-        "first_name": first_name,
-        "last_name": last_name,
-        "phone": phone,
-        "role": role
-    }
-    users.append(new_user)
+            role = input("Rolingizni kiriting (admin/manager/director/worker): ").strip().lower()
+            if role not in ["admin", "manager", "director", "worker"]:
+                raise ValueError("Rol noto'g'ri. Rol admin, manager, director yoki worker bo'lishi kerak.")
 
-    # JSON faylga yozish
-    save_data(users)
-    print("Ro'yxatdan muvaffaqiyatli o'tdingiz!")
+            # Admin uchun parol tekshiruvi
+            if role == "admin":
+                admin_password = getpass.getpass("Admin parolini kiriting: ").strip()
+                if admin_password != ADMIN_PASSWORD:
+                    raise ValueError("Admin paroli noto'g'ri. Ro'yxatdan o'tish bekor qilindi.")
+
+            if role == "manager":
+                manager_password = getpass.getpass("Manager parolini kiriting").strip()
+                if manager_password != MANAGER_PASSWORD:
+                    raise ValueError("Menegir paroli notogri kiritildi")
+
+            if role == "director":
+                director_password = getpass.getpass("director parolini kiriting").strip()
+                if director_password != DIRECTOR_PSSWORD:
+                    raise ValueError("Director paroli notogri kiritildi")
+
+            # Yangi foydalanuvchi identifikatori
+            user_id = len(users) + 1
+
+            # Yangi foydalanuvchini qo'shish
+            new_user = {
+                "id": user_id,
+                "username": username,
+                "password": hashed_password,  # Parol xeshlangan holda saqlanadi
+                "first_name": first_name,
+                "last_name": last_name,
+                "phone": phone,
+                "role": role
+            }
+            users.append(new_user)
+
+            # JSON faylga yozish
+            save_data(users)
+            print("Ro'yxatdan muvaffaqiyatli o'tdingiz!")
+            break  # Ro'yxatdan o'tish muvaffaqiyatli bo'lsa, siklni tugatish
+        except ValueError as e:
+            print(f"Xatolik: {e}")
+            print("Iltimos, ma'lumotlarni qaytadan kiriting.\n")
 
 # Foydalanuvchilarni ko'rish funksiyasi
 def view_users():
@@ -80,8 +126,7 @@ def view_users():
         else:
             print("\nHozircha foydalanuvchilar mavjud emas.")
     except Exception as e:
-        print(f"❌ Xatolik yuz berdi: {e}")
-
+        print(f"Xatolik yuz berdi: {e}")
 
 # Bosh menyu
 if __name__ == "__main__":
