@@ -58,7 +58,7 @@ def generate_report(data, start_date, end_date, filename="report.pdf"):
     print(f"Hisobot saqlandi: {filename}")
 
 # Dasturni boshqarish
-if name == "main":
+if __name__ == "__main__":
     # Foydalanuvchidan vaqt oralig'ini kiritishni so'rash
     start_date_input = input("Boshlanish sanasini kiriting (yyyy-mm-dd): ")
     end_date_input = input("Tugash sanasini kiriting (yyyy-mm-dd): ")
