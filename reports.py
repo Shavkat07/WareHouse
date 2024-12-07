@@ -1,5 +1,4 @@
 from os import name
-
 from fpdf import FPDF
 import json
 from datetime import datetime
@@ -11,17 +10,15 @@ def load_data(file_name='transactions.json', param_key='all', quantity='all'):
             data = json.load(file)
         return data
     except FileNotFoundError:
-        print(f"{file_name} topilmadi.")
+        print(f"{file_name} topilmadi yoki noto'g'ri formatda.")
         return []
 
-# Hisobot yaratish funksiyasi (yangilangan)
+# Hisobot yaratish funksiyasinn
 def generate_report(data, start_date, end_date, filename="report.pdf"):
-    # Import va eksport sanash uchun o'zgaruvchilar
     kelgan_tovarlar = 0
     chiqarilgan_tovarlar = 0
-
-    # Berilgan vaqt oralig'ida filtrlash
     filtered_data = []
+
     for i in data:
         if start_date <= datetime.fromisoformat(i['date']) <= end_date:
             filtered_data.append(i)
@@ -30,44 +27,36 @@ def generate_report(data, start_date, end_date, filename="report.pdf"):
             elif i['transaction_type'] == 'export':
                 chiqarilgan_tovarlar += 1
 
-    # PDF yaratish jarayoni
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
     pdf.set_font("Arial", size=12)
 
     # Hisobot sarlavhasi
-    pdf.cell( 200, 10, ln=True, align='C' )
-    pdf.cell( 200, 10, ln=True, align='C' )
+    pdf.cell(200, 10, txt="Hisobot", ln=True, align='C')
+    pdf.cell(200, 10, txt=f"{start_date} dan {end_date} gacha", ln=True, align='C')
 
-    pdf.ln(10)  # Bo'sh joy qo'shish
+    pdf.ln(10)
 
-    # Statistika qo'shish
-    pdf.cell( 0, 10, ln=True )
-    pdf.cell( 0, 10, ln=True )
+    # Statistika
+    pdf.cell(0, 10, txt=f"Kelgan tovarlar: {kelgan_tovarlar}", ln=True)
+    pdf.cell(0, 10, txt=f"Chiqib ketgan tovarlar: {chiqarilgan_tovarlar}", ln=True)
 
-    pdf.ln(10)  # Yana bo'sh joy
+    pdf.ln(10)
 
     # Filtrlangan ma'lumotlarni qo'shish
-    pdf.cell( 0, 10, ln=True )
     for item in filtered_data:
-        pdf.cell( 0, 10, ln=True )
+        pdf.cell(0, 10, txt=f"Sana: {item['date']}, Turi: {item['transaction_type']}, Miqdor: {item['quantity']}", ln=True)
 
-    # PDFni saqlash
     pdf.output(filename)
     print(f"Hisobot saqlandi: {filename}")
 
-# Dasturni boshqarish
-if name == "main":
-    # Foydalanuvchidan vaqt oralig'ini kiritishni so'rash
+if __name__ == "__main__":
     start_date_input = input("Boshlanish sanasini kiriting (yyyy-mm-dd): ")
     end_date_input = input("Tugash sanasini kiriting (yyyy-mm-dd): ")
 
     start_date = datetime.fromisoformat(start_date_input)
     end_date = datetime.fromisoformat(end_date_input)
 
-    # Ma'lumotlarni yuklash
     data = load_data(file_name='transactions.json')
-
-    # Hisobot yaratish
     generate_report(data, start_date, end_date)

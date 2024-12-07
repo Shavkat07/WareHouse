@@ -30,7 +30,7 @@ def get_logs(start_time=None, end_time=None, filename="logs.json"):
     if start_time and end_time:
         filtered_logs = [
             log for log in logs
-            if start_time <= datetime.fromisoformat(log["timestamp"]) <= end_time
+            if "timestamp" in log and start_time <= datetime.fromisoformat(log["timestamp"]) <= end_time
         ]
         return filtered_logs
 
