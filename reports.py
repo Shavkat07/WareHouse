@@ -2,27 +2,20 @@ from fpdf import FPDF
 import json
 from datetime import datetime
 
-# Ma'lumotlarni yuklash funksiyasi
-def load_data(file_name='transactions.json', param_key='all', quantity='all'):
-    try:
-        with open(file_name, 'r') as file:
-            data = json.load(file)
-        return data
-    except FileNotFoundError:
-        print(f"{file_name} topilmadi yoki noto'g'ri formatda.")
-        return []
+from data import load_data_from_file
+
 
 # Hisobot yaratish funksiyasinn
 def generate_report():
-    start_date = datetime.fromisoformat(input("Boshlanish sanasini kiriting (dd-mm-yyyy): "))
-    end_date = datetime.fromisoformat(input("Tugash sanasini kiriting (dd-mm-yyyy): "))
-    file_name = 'report_pdf'
+    transactions = load_data_from_file(file_name='transactions', param_key='all')
+    start_date = datetime.fromisoformat(input("Boshlanish sanasini kiriting (yyyy-mm-dd): "))
+    end_date = datetime.fromisoformat(input("Tugash sanasini kiriting (yyyy-mm-dd): "))
+    file_name = 'report.pdf'
 
     kelgan_tovarlar = 0
     chiqarilgan_tovarlar = 0
     filtered_data = []
-
-    for i in data:
+    for i in transactions:
         if start_date <= datetime.fromisoformat(i['date']) <= end_date:
             filtered_data.append(i)
             if i['transaction_type'] == 'import':
@@ -55,5 +48,5 @@ def generate_report():
     print(f"Hisobot saqlandi: {file_name}")
 
 if __name__ == "__main__":
-    data = load_data(file_name='transactions.json')
+
     generate_report()
