@@ -1,9 +1,13 @@
 import json
 from datetime import datetime
+from operator import ifloordiv
+
+from data import load_data_from_file, save_data_to_file, update_data
+
 
 # Путь к JSON-файлу
-file_path = 'Database/transactions.json'
-products_file = 'Database/products.json'  # JSON-файл с товарами на складе
+# file_path = 'Database/transactions.json'
+# products_file = 'Database/products.json'  # JSON-файл с товарами на складе
 
 
 # Загрузка существующих данных (транзакции и товары)
@@ -22,107 +26,112 @@ products_file = 'Database/products.json'  # JSON-файл с товарами н
 
 
 # Проверка наличия товара на складе для экспорта и уменьшение количества
-def check_product_availability(warehouse_id, product_id, quantity, products, transaction_type):
+def check_product_availability(warehouse_id, product_id, quantity, transaction_type):
+    product = load_data_from_file(file_name='products', param_key='id', param_value=product_id)
+
     if transaction_type == 'export':
-        for product in products:
-            if product["warehouse_id"] == warehouse_id and product["product_id"] == product_id:
-                if product["quantity"] >= quantity:
-                    # Уменьшаем количество товара на складе при экспорте
-                    product["quantity"] -= quantity
-                    save_data(products, products_file)  # Сохраняем обновленные данные о товарах
-                    return True  # Товар есть и его достаточно
-                else:
-                    print(
-                        f"Ошибка: недостаточно товара для экспорта. На складе {warehouse_id} доступно только {product['quantity']} единиц.")
-                    return False
-        print(f"Ошибка: товара с ID {product_id} нет на складе {warehouse_id}.")
-        return False
+
+        if product["quantity"] >= quantity:
+            # Уменьшаем количество товара на складе при экспорте
+            new_product_quantity = product["quantity"] - quantity
+            update_data(file_name='products', obj_id=product_id, param_key='quantity', new_param_value=new_product_quantity)  # Сохраняем обновленные данные о товарах
+            return True  # Товар есть и его достаточно
+        else:
+            print(
+                f"Ошибка: недостаточно товара для экспорта. На складе {warehouse_id} доступно только {product['quantity']} единиц.")
+            return False
+    else:
+        new_product_quantity = product["quantity"] + quantity
+        update_data(file_name='products', obj_id=product_id, param_key='quantity', new_param_value=new_product_quantity)
     return True  # Для транзакций типа 'import' не проверяем наличие товара
 
 
 # Функция для создания транзакции
 
-def create_transaction(user, product_id, transaction_type, quantity, warehouse_id):
-    transactions = load_data(file_path)
-    user = input("Username kiriting")
-    product_id = int(input("Productning id kiriting"))
-    transaction_type = input("Import or Export kiling")
-    quantity = int(input("Nechta tovar ekanligini kirgizing"))
-    warehouse_id = int(input("Skadlning id sini kiriting"))
-
-    # products = load_data(products_file)  # Загружаем список товаров на складе
-
+def create_transaction():
     transaction = {
         'id': 1,
         'user': '',
         'product_id': '',
-        'transaction_type':'',
+        'transaction_type': '',
         'quantity': '',
-        'date':'',
-        'warehouse_id':'',
+        'date': '',
+        'warehouse_id': '',
     }
 
-    if transaction['id'] < transactions[-1]['id']:
-        transaction['id'] += transactions[-1]['id'] + 1
 
-    if load_data('users', param_key='username', param_value=user):
-        transaction['user'] = user
+
+    product_id = int(input("Productning id kiriting"))
+
+    if load_data_from_file('products', param_key='id', param_value=product_id):
+        transaction['product_id'] = product_id
+    else:
+        # add_product()
+        pass
+
+    username = input("Username kiriting")
+
+    if load_data_from_file('users', param_key='username', param_value=username):
+        transaction['user'] = username
     else:
         return "Username does not exists"
 
-    if load_data('products', param_key='id', param_value=product_id):
-        transaction['product_id'] = product_id
-    else:
-        return
-
-
-
+    quantity = int(input("Nechta tovar ekanligini kirgizing"))
 
     # Ввод типа транзакции
     while True:
         transaction_type = input("Введите тип транзакции (import/export): ").strip().lower()
         if transaction_type in {"import", "export"}:
+            transaction['transaction_type'] = transaction_type
             break
         else:
             print("Ошибка: тип транзакции может быть только 'import' или 'export'. Попробуйте снова.")
 
     warehouse_id = int(input("Введите ID склада: "))
-    user_id = int(input("Введите ID пользователя: "))
+
+    if load_data_from_file('warehouses', 'id', warehouse_id) is not None:
+        transaction['warehouse_id'] = warehouse_id
+    else:
+        print("Omborxona mavjud emas")
+        return
 
     # Проверка наличия товара на складе для транзакции типа 'export'
-    if not check_product_availability(warehouse_id, product_id, quantity, products, transaction_type):
+    if not check_product_availability(warehouse_id, product_id, quantity, transaction_type):
+        print("Tovar skladda yetarlicha emas")
         return  # Если товара нет или недостаточно для экспорта, прекращаем выполнение
 
-    # Создание новой транзакции
-    new_transaction = {
-        "id": len(transactions) + 1,
-        "product_id": product_id,
-        "quantity": quantity,
-        "transaction_type": transaction_type,
-        "date": datetime.now().isoformat(),
-        "warehouse_id": warehouse_id,
-        "user_id": user_id
-    }
+    transaction['quantity'] = quantity
 
-    transactions.append(new_transaction)
-    save_data(transactions, file_path)
-    print(f"Транзакция добавлена: {new_transaction}")
+    last_transaction_id = load_data_from_file('transactions', param_key='id', )
+
+    if last_transaction_id is not None:
+        transaction["id"] = last_transaction_id + 1
+    else:
+        transaction["id"] = 1
+
+    transaction['date'] = datetime.now().isoformat()
+
+    save_data_to_file(file_name='transactions', data=transaction)
+    print(f"Транзакция добавлена: {transaction}")
 
 
 # Функция для просмотра всех транзакций
-def view_transactions(file_path, product):
-    transactions = load_data(file_path, )
-    if not transactions:
+def view_transactions():
+    transactions = load_data_from_file('transactions', param_key='all')
+    if transactions is None:
         print("Список транзакций пуст.")
     else:
         print("\nВсе транзакции:")
         for transaction in transactions:
-            print(transaction)
+            print(f"Id Transaction: {transaction['id']} "
+                  f"User Who created this transaction: {transaction['user']}"
+                  f"Product id: {transaction['product_id']}"
+                  f"Transaction type: {transaction['']}")
 
 
 # Функция для удаления транзакции по ID
 def delete_transaction(file_path):
-    transactions = load_data(file_path)
+    transactions = load_data_from_file(file_path)
     if not transactions:
         print("Список транзакций пуст. Нечего удалять.")
         return
@@ -134,7 +143,7 @@ def delete_transaction(file_path):
         if len(updated_transactions) == len(transactions):
             print(f"Транзакция с ID {transaction_id} не найдена.")
         else:
-            save_data(updated_transactions, file_path)
+            save_data_to_file(updated_transactions, file_path)
             print(f"Транзакция с ID {transaction_id} удалена.")
     except ValueError:
         print("Ошибка: введите корректный ID.")
@@ -143,13 +152,13 @@ def delete_transaction(file_path):
 # Пример использования функций без меню
 
 # Создание новой транзакции
-create_transaction('transactions.json', 'products.json')
-
+# create_transaction()
+view_transactions()
 # Просмотр всех транзакций
-view_transactions('transactions.json')
+# view_transactions('transactions.json')
 
 # Удаление транзакции
-delete_transaction('transactions.json')
+# delete_transaction('transactions.json')
 
 
 

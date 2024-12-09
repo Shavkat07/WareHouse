@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "id": 1,
+        "user": "johndoe",
+        "product_id": 1,
+        "transaction_type": "import",
+        "quantity": 100,
+        "date": "2024-12-09T16:21:12.465761",
+        "warehouse_id": 1
+    },
+    {
+        "id": 2,
+        "user": "johndoe",
+        "product_id": 1,
+        "transaction_type": "export",
+        "quantity": 50,
+        "date": "2024-12-09T16:21:44.930439",
+        "warehouse_id": 1
+    }
+]
