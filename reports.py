@@ -1,4 +1,3 @@
-from os import name
 from fpdf import FPDF
 import json
 from datetime import datetime
@@ -14,7 +13,11 @@ def load_data(file_name='transactions.json', param_key='all', quantity='all'):
         return []
 
 # Hisobot yaratish funksiyasinn
-def generate_report(data, start_date, end_date, filename="report.pdf"):
+def generate_report():
+    start_date = datetime.fromisoformat(input("Boshlanish sanasini kiriting (dd-mm-yyyy): "))
+    end_date = datetime.fromisoformat(input("Tugash sanasini kiriting (dd-mm-yyyy): "))
+    file_name = 'report_pdf'
+
     kelgan_tovarlar = 0
     chiqarilgan_tovarlar = 0
     filtered_data = []
@@ -48,15 +51,11 @@ def generate_report(data, start_date, end_date, filename="report.pdf"):
     for item in filtered_data:
         pdf.cell(0, 10, txt=f"Sana: {item['date']}, Turi: {item['transaction_type']}, Miqdor: {item['quantity']}", ln=True)
 
-    pdf.output(filename)
-    print(f"Hisobot saqlandi: {filename}")
+    pdf.output(file_name)
+    print(f"Hisobot saqlandi: {file_name}")
 
 if __name__ == "__main__":
-    start_date_input = input("Boshlanish sanasini kiriting (yyyy-mm-dd): ")
-    end_date_input = input("Tugash sanasini kiriting (yyyy-mm-dd): ")
 
-    start_date = datetime.fromisoformat(start_date_input)
-    end_date = datetime.fromisoformat(end_date_input)
 
     data = load_data(file_name='transactions.json')
     generate_report(data, start_date, end_date)
