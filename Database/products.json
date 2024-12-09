@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "name": "acer aspire 5",
+        "description": "tefdghej",
+        "category": "laptops",
+        "price": "200$",
+        "quantity": 60,
+        "supplier_id": 1
+    }
+]
