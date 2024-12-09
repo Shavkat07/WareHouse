@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Asus Tuf Gaming f15",
+        "price": "1000$",
+        "description": "pizdes",
+        "quantity": 1000,
+        "category": "Laptops",
+        "supplier_id": 1,
+        "warehouse_id": 1
+    },
+    {
+        "id": 2,
+        "name": "Asus Tuf Gaming f15",
+        "price": "1000$",
+        "description": "pizds",
+        "quantity": 100,
+        "category": "Laptops",
+        "supplier_id": 1,
+        "warehouse_id": 1
+    }
+]
