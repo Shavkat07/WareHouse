@@ -1,8 +1,7 @@
-import json
-import os
+
 import getpass
 import hashlib
-from importlib.metadata import files
+from data import *
 
 # JSON fayl nomi
 DATA_FILE = "users.json"
@@ -16,18 +15,6 @@ def is_logged_in():
     """Проверяет, вошел ли пользователь."""
     return session["logged_in"]
 
-# JSON faylni yaratish yoki o'qish
-def load_data():
-    if not os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "w") as file:
-            json.dump([], file)  # Bo'sh ro'yxat saqlash
-    with open(DATA_FILE, "r") as file:
-        return json.load(file)
-
-# JSON faylga yangi ma'lumot yozish
-def save_data(data):
-    with open(DATA_FILE, "w") as file:
-        json.dump(data, file, indent=4)
 
 # Parolni xeshlash funksiyasi
 def hash_password(password):
@@ -38,7 +25,7 @@ def register():
     while True:  # Noto'g'ri ma'lumotlar uchun qaytadan urinib ko'rish
         try:
             # Foydalanuvchi ma'lumotlarini yuklash
-            users = load_data()
+            users = load_data_from_file('users', param_key='all')
 
             # Foydalanuvchi1dan ma'lumotlarni kiritish
             username = input("Username kiriting: ").strip()
@@ -50,7 +37,7 @@ def register():
                     raise ValueError("Bu username allaqachon mavjud. Iltimos, boshqa username tanlang.")
 
             # Parolni ko'rinmas holatda kiritish
-            print("Hello ")
+
             password = getpass.getpass("Password kiriting: ").strip()
             if not password:
                 raise ValueError("Password kiritilishi shart.")
@@ -108,7 +95,7 @@ def register():
             users.append(new_user)
 
             # JSON faylga yozish
-            save_data(users)
+            save_data_to_file(users, file_name='users')
             print("Ro'yxatdan muvaffaqiyatli o'tdingiz!")
             break  # Ro'yxatdan o'tish muvaffaqiyatli bo'lsa, siklni tugatish
         except ValueError as e:
@@ -118,7 +105,7 @@ def register():
 # Login funksiyasi
 def login():
     try:
-        users = load_data()  # JSON fayldan foydalanuvchilarni yuklash
+        users = load_data_from_file(file_name='users', param_key='all')  # JSON fayldan foydalanuvchilarni yuklash
 
         username = input("Username kiriting: ").strip()
         password = getpass.getpass("Password kiriting: ").strip()

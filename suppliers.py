@@ -1,21 +1,56 @@
-
+from data import load_data_from_file, save_data_to_file, delete_data
 
 # Таъминотчи қўшиш
-def add_supplier(name, company, quantity, price):
-    suppliers = load_data()
+def add_supplier():
     new_supplier = {
-        "name": name,
-        "company": company,
-        "quantity": quantity,
-        "price": price
+        'id': 0,
+        "name": '',
+        "contact_name": "",
+        "phone": '',
+        "email": '',
+        'address': '',
     }
-    suppliers.append(new_supplier)
-    save_data(suppliers)
+    name = input()
+    new_supplier['name'] = name
+    contact_name = input()
+    new_supplier['contact_name'] = contact_name
+    phone = input()
+    if not (phone.isdigit() and len(phone) == 9):
+        raise ValueError("Telefon raqami noto'g'ri. U 9 ta raqamdan iborat bo'lishi kerak.")
+    # Takroriy telefon raqami tekshiruvi
+    if load_data_from_file(file_name='suppliers', param_key='phone', param_value=phone) is not None:
+        raise ValueError("Bu telefon raqami allaqachon mavjud. Iltimos, boshqa raqam kiriting.")
+
+    new_supplier["phone"] = phone
+
+    email = input()
+
+    if load_data_from_file(file_name='suppliers', param_key='email', param_value=email) is None:
+        if email.islower() and "@" in email:
+            new_supplier['email'] = email
+        else:
+            print('Email format is invalid!!!')
+            return
+    else:
+        print("Email already exists!!!")
+        return
+
+    address = input()
+    new_supplier['address'] = address
+
+
+    last_supplier_id = load_data_from_file('suppliers', param_key='id')
+    if last_supplier_id is not None:
+        new_supplier["id"] = last_supplier_id + 1
+    else:
+        new_supplier["id"] = 1
+
+    save_data_to_file(file_name='suppliers', data=new_supplier)
     print(f"Таъминотчи {name} қўшилди.")
 
 # Таъминотчиларни кўриш
 def view_suppliers():
-    suppliers = load_data()
+    suppliers = load_data_from_file('suppliers', param_key='all')
     if not suppliers:
         print("Таъминотчилар рўйхати бўш.")
     else:
@@ -24,11 +59,8 @@ def view_suppliers():
                   f"Миқдори: {supplier['quantity']}, Нархи: ${supplier['price']}")
 
 # Таъминотчини ўчириш
-def delete_supplier(name):
-    suppliers = load_data()
-    updated_suppliers = [supplier for supplier in suppliers if supplier["name"] != name]
-    if len(suppliers) == len(updated_suppliers):
-        print(f"Таъминотчи {name} топилмади.")
-    else:
-        save_data(updated_suppliers)
-        print(f"Таъминотчи {name} ўчирилди.")
+def delete_supplier(supplier_id):
+
+    delete_data(file_name='suppliers', param_key='id', param_value=supplier_id)
+
+    print(f"Таъминотчи ўчирилди.")
