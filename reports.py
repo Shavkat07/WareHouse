@@ -55,7 +55,5 @@ def generate_report():
     print(f"Hisobot saqlandi: {file_name}")
 
 if __name__ == "__main__":
-
-
     data = load_data(file_name='transactions.json')
-    generate_report(data, start_date, end_date)
+    generate_report()
