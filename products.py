@@ -66,6 +66,11 @@ def add_product():
         product["id"] = 1
 
     print("Product Added Successfully")
+    save_data_to_file(file_name='products', data=product)
+
+    warehouse_capacity = load_data_from_file('warehouses', param_key='id', param_value=warehouse_id)['current_capacity'] + quantity
+
+    update_data(file_name='warehouses', obj_id=warehouse_id, param_key='current_capacity', new_param_value=warehouse_capacity)
     return product
 
 def delete_product(product_id):
