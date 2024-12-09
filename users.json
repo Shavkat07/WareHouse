@@ -7,5 +7,23 @@
         "last_name": "Doe",
         "phone": "123456789",
         "role": "worker"
+    },
+    {
+        "id": 2,
+        "username": "sebpae",
+        "password": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+        "first_name": "senpae",
+        "last_name": "hentae",
+        "phone": "900229719",
+        "role": "director"
+    },
+    {
+        "id": 3,
+        "username": "senpae",
+        "password": "7df84b0d08d099f3cd728df1e066bd049714ddf33813cdaf5c37f00b0de4d7eb",
+        "first_name": "lol",
+        "last_name": "hentae",
+        "phone": "974558838",
+        "role": "admin"
     }
 ]

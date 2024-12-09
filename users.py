@@ -10,6 +10,12 @@ ADMIN_PASSWORD = "amdin12345"
 MANAGER_PASSWORD = "meneger12345"
 DIRECTOR_PSSWORD = "director12345"
 
+session = {"logged_in": False}
+
+def is_logged_in():
+    """Проверяет, вошел ли пользователь."""
+    return session["logged_in"]
+
 # JSON faylni yaratish yoki o'qish
 def load_data():
     if not os.path.exists(DATA_FILE):
@@ -34,7 +40,7 @@ def register():
             # Foydalanuvchi ma'lumotlarini yuklash
             users = load_data()
 
-            # Foydalanuvchidan ma'lumotlarni kiritish
+            # Foydalanuvchi1dan ma'lumotlarni kiritish
             username = input("Username kiriting: ").strip()
             if not username:
                 raise ValueError("Username kiritilishi shart.")
@@ -44,6 +50,7 @@ def register():
                     raise ValueError("Bu username allaqachon mavjud. Iltimos, boshqa username tanlang.")
 
             # Parolni ko'rinmas holatda kiritish
+            print("Hello ")
             password = getpass.getpass("Password kiriting: ").strip()
             if not password:
                 raise ValueError("Password kiritilishi shart.")
@@ -122,12 +129,22 @@ def login():
         for user in users:
             if user["username"] == username and user["password"] == hashed_password:
                 print(f"Xush kelibsiz, {user['first_name']} {user['last_name']}! Sizning rolingiz: {user['role']}.")
+                session['logged_in'] = True
                 return  # Login muvaffaqiyatli bo'lsa, funksiyani tugatish
 
         # Agar foydalanuvchi topilmasa
         print("Username yoki password noto'g'ri.")
     except Exception as e:
         print(f"Xatolik yuz berdi: {e}")
+
+def logout():
+    """Логаут пользователя."""
+    if not is_logged_in():
+        print("Siz royhatdan otmagansiz.")
+        return
+    session["logged_in"] = False
+    print("Siz sistemaga kirdinggiz.")
+
 
 
 # Foydalanuvchilarni ko'rish funksiyasi
@@ -158,7 +175,8 @@ if __name__ == "__main__":
         print("1. Ro'yxatdan o'tish")
         print("2. Foydalanuvchilarni ko'rish")
         print("3. Login")
-        print("4. Chiqish")
+        print("4. Logout")
+        print("5. Exit")
         choice = input("Tanlovingizni kiriting: ").strip()
 
         if choice == "1":
@@ -168,6 +186,8 @@ if __name__ == "__main__":
         elif choice == "3":
             login()
         elif choice == "4":
+            logout()
+        elif choice == "5":
             print("Tizimdan chiqildi.")
             break
         else:
