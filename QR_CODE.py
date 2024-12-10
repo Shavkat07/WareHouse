@@ -2,7 +2,7 @@ import qrcode
 import os
 import json
 
-PRODUCTS_FILE = "products.json"
+PRODUCTS_FILE = "Database/products.json"
 
 # Ensure the products file exists
 if not os.path.exists( PRODUCTS_FILE ):
@@ -45,32 +45,3 @@ def generate_qr_code(product_info, product_id):
     print( f"QR code for product saved as {qr_filename}" )
 
 
-def add_product():
-    """Add a new product to the system with a QR code."""
-    product_name = input( "Enter product name: " ).strip()
-    product_category = input( "Enter product category: " ).strip()
-    product_quantity = int( input( "Enter product quantity: " ) )
-
-    # Create product ID based on current number of products
-    products = load_products()
-    product_id = len( products ) + 1  # Simple ID generation
-
-    # Create a product entry
-    product = {
-        "id": product_id,
-        "name": product_name,
-        "category": product_category,
-        "quantity": product_quantity
-    }
-
-    # Add the product to the list
-    products.append( product )
-    save_products( products )
-
-    # Generate product information as a string for the QR code
-    product_info = f"ID: {product_id}\nName: {product_name}\nCategory: {product_category}\nQuantity: {product_quantity}"
-
-    # Generate and save the QR code
-    generate_qr_code( product_info, product_id )
-
-    print( f"Product {product_name} added successfully with QR code!" )
