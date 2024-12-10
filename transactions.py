@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from operator import ifloordiv
 
-from data import load_data_from_file, save_data_to_file, update_data
+from data import load_data_from_file, save_data_to_file, update_data, delete_data
 
 
 # Путь к JSON-файлу
@@ -110,6 +110,17 @@ def create_transaction():
         transaction["id"] = 1
 
     transaction['date'] = datetime.now().isoformat()
+    log = f"""
+                  f"Id Transaction: {transaction['id']} \n"
+                  f"User Who created this transaction: {transaction['user']} \n"
+                  f"Product id: {transaction['product_id']} \n"
+                  f"Transaction type: {transaction['transaction_type']} \n"
+                  f"Quantity: {transaction['quantity']} \n"
+                  f"Date: {transaction['date']} \n"
+                  f"Warehouse id: {transaction['warehouse_id']} \n"
+                  
+
+    """
 
     save_data_to_file(file_name='transactions', data=transaction)
     print(f"Транзакция добавлена: {transaction}")
@@ -123,39 +134,29 @@ def view_transactions():
     else:
         print("\nВсе транзакции:")
         for transaction in transactions:
-            print(f"Id Transaction: {transaction['id']} "
-                  f"User Who created this transaction: {transaction['user']}"
-                  f"Product id: {transaction['product_id']}"
-                  f"Transaction type: {transaction['']}")
+            print(f"Id Transaction: {transaction['id']} \n"
+                  f"User Who created this transaction: {transaction['user']} \n"
+                  f"Product id: {transaction['product_id']} \n"
+                  f"Transaction type: {transaction['transaction_type']} \n"
+                  f"Quantity: {transaction['quantity']} \n"
+                  f"Date: {transaction['date']} \n"
+                  f"Warehouse id: {transaction['warehouse_id']} \n")
 
 
 # Функция для удаления транзакции по ID
-def delete_transaction(file_path):
-    transactions = load_data_from_file(file_path)
-    if not transactions:
-        print("Список транзакций пуст. Нечего удалять.")
-        return
+def delete_transaction():
+    transaction_id = int(input("Id raqamini kiriting: "))
+    delete_data(file_name='transactions', param_key='id', param_value=transaction_id)
+    return
 
-    try:
-        transaction_id = int(input("Введите ID транзакции для удаления: "))
-        # Поиск и удаление транзакции
-        updated_transactions = [t for t in transactions if t["id"] != transaction_id]
-        if len(updated_transactions) == len(transactions):
-            print(f"Транзакция с ID {transaction_id} не найдена.")
-        else:
-            save_data_to_file(updated_transactions, file_path)
-            print(f"Транзакция с ID {transaction_id} удалена.")
-    except ValueError:
-        print("Ошибка: введите корректный ID.")
 
 
 # Пример использования функций без меню
 
 # Создание новой транзакции
 # create_transaction()
-view_transactions()
+
 # Просмотр всех транзакций
-# view_transactions('transactions.json')
 
 # Удаление транзакции
 # delete_transaction('transactions.json')
