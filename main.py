@@ -3,13 +3,13 @@ import time
 import pygame
 
 from gtts import gTTS
-from users import registration ,login,log_out()
-from logs import view_logs, add_log
-from products import add_product, view_products, delete_product
-from reports import create_report
-from transactions import view_transactions, add_transaction, delete_transaction
-from suppliers import add_supplier, view_suppliers, delete_supplier
-from warehouses import add_warehouse, view_warehouses  # Add warehouse functions
+# from users import registration ,login,log_out()
+# from logs import view_logs, add_log
+# from products import add_product, view_products, delete_product
+# from reports import create_report
+# from transactions import view_transactions, add_transaction, delete_transaction
+# from suppliers import add_supplier, view_suppliers, delete_supplier
+# from warehouses import add_warehouse, view_warehouses  # Add warehouse functions
 
 class Colors:
     SOFT_PURPLE = '\033[38;5;147m'
