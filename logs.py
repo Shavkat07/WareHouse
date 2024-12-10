@@ -1,31 +1,15 @@
 import json
 from datetime import datetime
+from data import save_data_to_file, load_data_from_file
 
 # Loglarni JSON faylga saqlash
-def save_log(log, filename="logs.json"):
-    try:
-        # Eski loglarni o'qish
-        with open(filename, "r") as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        data = []  # Fayl mavjud bo'lmasa, bo'sh ro'yxat
-
-    # Yangi logni qo'shish
-    data.append(log)
-
-    # JSON faylga yozish
-    with open(filename, "w") as file:
-        json.dump(data, file, indent=4)
+def save_log(log):
+    save_data_to_file(file_name="logs", data=log)
     print("Log saqlandi!")
 
 # Loglarni JSON fayldan o'qish
-def get_logs(start_time=None, end_time=None, filename="logs.json"):
-    try:
-        with open(filename, "r") as file:
-            logs = json.load(file)
-    except FileNotFoundError:
-        return []
-
+def get_logs(start_time=None, end_time=None,):
+    logs = load_data_from_file(file_name='logs', param_key='all')
     # Vaqt oralig'ini filtrlash
     if start_time and end_time:
         filtered_logs = [
