@@ -105,14 +105,7 @@ def update_data(file_name: str, obj_id:int, param_key: str, new_param_value):
 
 
 def delete_data(file_name: str, param_key: str, param_value=+ 1) :
-	"""
-	Обновляет параметр `status` объекта с заданным `id` в JSON-файле.
 
-	:param file_name: Имя файла JSON, где хранятся данные.
-	:param id: ID объекта, у которого нужно изменить статус.
-	:param param_key: Параметр объекта которого нужно изменить.
-	:param new_param_value: Новое значение для параметра `status`.
-	"""
 	file_path = FILES_PATH + file_name + '.json'
 	try:
 		# Открываем и загружаем данные из JSON-файла
