@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "username": "johndoe",
+    "password": "hashedpassword",
+    "first_name": "John",
+    "last_name": "Doe",
+    "phone": "123456789",
+    "role": "worker"
+  }
+]
