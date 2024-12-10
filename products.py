@@ -83,4 +83,3 @@ def view_products():
     return load_data_from_file(file_name='products', param_key='all')
 
 
-add_product()

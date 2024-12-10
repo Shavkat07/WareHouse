@@ -1,20 +1,65 @@
 [
     {
-        "id": 1,
-        "user": "johndoe",
-        "product_id": 1,
-        "transaction_type": "import",
-        "quantity": 100,
-        "date": "2024-12-09T16:21:12.465761",
-        "warehouse_id": 1
-    },
-    {
         "id": 2,
         "user": "johndoe",
         "product_id": 1,
         "transaction_type": "export",
         "quantity": 50,
         "date": "2024-12-09T16:21:44.930439",
+        "warehouse_id": 1
+    },
+    {
+        "id": 3,
+        "user": "johndoe",
+        "product_id": 2,
+        "transaction_type": "import",
+        "quantity": 100,
+        "date": "2024-12-10T15:02:59.646635",
+        "warehouse_id": 1
+    },
+    {
+        "id": 4,
+        "user": "johndoe",
+        "product_id": 1,
+        "transaction_type": "import",
+        "quantity": 17,
+        "date": "2024-12-10T16:40:30.033289",
+        "warehouse_id": 1
+    },
+    {
+        "id": 5,
+        "user": "johndoe",
+        "product_id": 2,
+        "transaction_type": "import",
+        "quantity": 17,
+        "date": "2024-12-10T17:00:34.629405",
+        "warehouse_id": 1
+    },
+    {
+        "id": 6,
+        "user": "johndoe",
+        "product_id": 2,
+        "transaction_type": "export",
+        "quantity": 100,
+        "date": "2024-12-10T17:10:50.074444",
+        "warehouse_id": 1
+    },
+    {
+        "id": 7,
+        "user": "johndoe",
+        "product_id": 2,
+        "transaction_type": "export",
+        "quantity": 17,
+        "date": "2024-12-10T17:12:33.300461",
+        "warehouse_id": 1
+    },
+    {
+        "id": 8,
+        "user": "johndoe",
+        "product_id": 2,
+        "transaction_type": "import",
+        "quantity": 199,
+        "date": "2024-12-10T17:14:25.340157",
         "warehouse_id": 1
     }
 ]
