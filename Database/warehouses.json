@@ -1,8 +1,9 @@
 [
     {
         "id": 1,
-        "name": "Andijon Omborxonasi",
-        "location": "Uzbekistan/Andijon",
-        "capacity": 1000000
+        "name": "Andijondagi Ombor",
+        "location": "Andijon",
+        "capacity": 1000000000,
+        "current_capacity": 100
     }
 ]
