@@ -51,7 +51,7 @@ def create_transaction():
 
         transaction['product_id'] = product_id
 
-        quantity = int(input("Nechta tovar ekanligini kiriting: "))
+        quantity = int(''.join(input("Nechta tovar ekanligini kiriting: ").split()))
         transaction['quantity'] = quantity
 
         warehouse_id = int(input("Введите ID склада: "))

@@ -7,7 +7,7 @@ from data import *
 DATA_FILE = "users.json"
 ADMIN_PASSWORD = "admin12345"
 MANAGER_PASSWORD = "meneger12345"
-DIRECTOR_PSSWORD = "director12345"
+DIRECTOR_PASSWORD = "director12345"
 
 session = {"logged_in": False}
 
@@ -29,13 +29,18 @@ def register():
 
             # Foydalanuvchi1dan ma'lumotlarni kiritish
             username = input("Username kiriting: ").strip()
+
             if not username:
                 raise ValueError("Username kiritilishi shart.")
             # Takroriy username tekshiruvi
             for user in users:
                 if user['username'] == username:
-                    raise ValueError("Bu username allaqachon mavjud. Iltimos, boshqa username tanlang.")
-
+                    a = input("Bu username allaqachon mavjud. Login qilishni istaysizmi ('yes' or 'no'): ")
+                    if a == "yes":
+                        login()
+                        return "Logining"
+                    else:
+                        return
             # Parolni ko'rinmas holatda kiritish
 
             password = getpass.getpass("Password kiriting: ").strip()
@@ -51,7 +56,7 @@ def register():
             if len(last_name) > 50 or not last_name:
                 raise ValueError("Familiya uzunligi 50 ta belgidan oshmasligi va bo'sh bo'lmasligi kerak.")
 
-            phone = input("Telefon raqamingizni kiriting (9 ta raqam): ").strip()
+            phone = int(''.join(input("Telefon raqamingizni kiriting (9 ta raqam): ").strip().split()))
             if not (phone.isdigit() and len(phone) == 9):
                 raise ValueError("Telefon raqami noto'g'ri. U 9 ta raqamdan iborat bo'lishi kerak.")
             # Takroriy telefon raqami tekshiruvi
@@ -76,7 +81,7 @@ def register():
 
             if role == "director":
                 director_password = getpass.getpass("director parolini kiriting").strip()
-                if director_password != DIRECTOR_PSSWORD:
+                if director_password != DIRECTOR_PASSWORD:
                     raise ValueError("Director paroli notogri kiritildi")
 
             # Yangi foydalanuvchi identifikatori
@@ -117,7 +122,7 @@ def login():
             if user["username"] == username and user["password"] == hashed_password:
                 print(f"Xush kelibsiz, {user['first_name']} {user['last_name']}! Sizning rolingiz: {user['role']}.")
                 session['logged_in'] = True
-                return  # Login muvaffaqiyatli bo'lsa, funksiyani tugatish
+                return "Login Successfully" # Login muvaffaqiyatli bo'lsa, funksiyani tugatish
 
         # Agar foydalanuvchi topilmasa
         print("Username yoki password noto'g'ri.")
@@ -130,7 +135,7 @@ def logout():
         print("Siz royhatdan otmagansiz.")
         return
     session["logged_in"] = False
-    print("Siz sistemaga kirdinggiz.")
+    print("Siz sistemadan chiqdingiz.")
 
 
 

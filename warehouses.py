@@ -19,7 +19,7 @@ def add_warehouse():
 
     name = input("Name kiriting: ")
     location = input("Locatsiya kiriting: ")
-    capacity = int(input("Capacity ni kiriting: "))
+    capacity = int(''.join(input("Capacity ni kiriting: ").split()))
 
     warehouse['name'] = name
     warehouse['location'] = location

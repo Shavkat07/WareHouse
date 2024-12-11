@@ -16,5 +16,14 @@
         "last_name": "abdusalom",
         "phone": "900229719",
         "role": "admin"
+    },
+    {
+        "id": 3,
+        "username": "shavkat",
+        "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+        "first_name": "Shavkat",
+        "last_name": "Kurbanov",
+        "phone": "999999999",
+        "role": "admin"
     }
 ]

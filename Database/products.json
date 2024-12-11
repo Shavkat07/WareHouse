@@ -24,8 +24,18 @@
         "name": "Acer Aspire 4",
         "price": "500$",
         "description": "good",
-        "quantity": 100,
+        "quantity": 50,
         "category": "Laptops",
+        "supplier_id": 1,
+        "warehouse_id": 1
+    },
+    {
+        "id": 4,
+        "name": "Infinix HOT 40 Pro",
+        "price": "250$",
+        "description": "Camera 108 MP",
+        "quantity": 10,
+        "category": "Phones",
         "supplier_id": 1,
         "warehouse_id": 1
     }

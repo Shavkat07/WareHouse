@@ -104,7 +104,7 @@ def update_data(file_name: str, obj_id:int, param_key: str, new_param_value):
 		print(f"Произошла ошибка: {e}")
 
 
-def delete_data(file_name: str, param_key: str, param_value=+ 1) :
+def delete_data(file_name: str, param_key: str, param_value=1) :
 
 	file_path = FILES_PATH + file_name + '.json'
 	try:
