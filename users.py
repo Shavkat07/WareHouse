@@ -137,7 +137,7 @@ def logout():
 # Foydalanuvchilarni ko'rish funksiyasi
 def view_users():
     try:
-        users = load_data_from_file()  # JSON fayldan foydalanuvchilarni yuklash
+        users = load_data_from_file("users", param_key="all",)  # JSON fayldan foydalanuvchilarni yuklash
         if users:  # Agar foydalanuvchilar mavjud bo'lsa
             print("\nFoydalanuvchilar ro'yxati:")
             for user in users:
@@ -154,28 +154,3 @@ def view_users():
     except Exception as e:
         print(f"Xatolik yuz berdi: {e}")
 
-# Bosh menyu
-if __name__ == "__main__":
-    while True:
-        print("\n=== Tizim ===")
-
-        print("1. Ro'yxatdan o'tish")
-        print("2. Foydalanuvchilarni ko'rish")
-        print("3. Login")
-        print("4. Logout")
-        print("5. Exit")
-        choice = input("Tanlovingizni kiriting: ").strip()
-
-        if choice == "1":
-            register()
-        elif choice == "2":
-            view_users()
-        elif choice == "3":
-            login()
-        elif choice == "4":
-            logout()
-        elif choice == "5":
-            print("Tizimdan chiqildi.")
-            break
-        else:
-            print("Noto'g'ri tanlov. Qaytadan urinib ko'ring.")
