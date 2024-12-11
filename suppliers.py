@@ -65,5 +65,3 @@ def delete_supplier(supplier_id):
 
     print(f"Таъминотчи ўчирилди.")
 
-
-add_supplier()
