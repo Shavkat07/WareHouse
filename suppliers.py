@@ -64,3 +64,5 @@ def delete_supplier(supplier_id):
     delete_data(file_name='suppliers', param_key='id', param_value=supplier_id)
 
     print(f"Таъминотчи ўчирилди.")
+
+

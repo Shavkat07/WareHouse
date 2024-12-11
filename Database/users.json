@@ -1,11 +1,31 @@
 [
-  {
-    "id": 1,
-    "username": "johndoe",
-    "password": "hashedpassword",
-    "first_name": "John",
-    "last_name": "Doe",
-    "phone": "123456789",
-    "role": "worker"
-  }
+    {
+        "id": 1,
+        "username": "johndoe",
+        "password": "hashedpassword",
+        "first_name": "John",
+        "last_name": "Doe",
+        "phone": "123456789",
+        "role": "worker"
+    },
+    [
+        {
+            "id": 1,
+            "username": "johndoe",
+            "password": "hashedpassword",
+            "first_name": "John",
+            "last_name": "Doe",
+            "phone": "123456789",
+            "role": "worker"
+        },
+        {
+            "id": 2,
+            "username": "senpae",
+            "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+            "first_name": "azizbek",
+            "last_name": "abdusalom",
+            "phone": "900229719",
+            "role": "admin"
+        }
+    ]
 ]
