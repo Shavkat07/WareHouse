@@ -47,6 +47,4 @@ def generate_report():
     pdf.output(file_name)
     print(f"Hisobot saqlandi: {file_name}")
 
-if __name__ == "__main__":
 
-    generate_report()
