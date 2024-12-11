@@ -5,11 +5,11 @@ import pygame
 from gtts import gTTS
 
 from data import load_data_from_file
-from users import register ,login,logout
+from users import register ,login,logout, is_logged_in
 from logs import get_logs,save_log
 from products import add_product, view_products, delete_product
 from reports import generate_report
-from transactions import view_transactions,create_transaction , delete_transaction , check_product_availability
+from transactions import view_transactions,create_transaction , delete_transaction
 from suppliers import add_supplier, view_suppliers, delete_supplier
 from warehouses import add_warehouse # view_warehouses  # Add warehouse functions
 
@@ -70,7 +70,7 @@ menu = f"""
 {Colors.SOFT_GREEN}{Colors.ORQA_qora}  9.  {Colors.SOFT_PINK} View Warehouse Info  📜                                          {Colors.RESET}
 {Colors.SOFT_GREEN}{Colors.ORQA_qora}  10. {Colors.SOFT_PINK} Create Report        📊                                          {Colors.RESET}
 {Colors.SOFT_GREEN}{Colors.ORQA_qora}  11. {Colors.SOFT_PINK} View Logs            🗂️                                          {Colors.RESET}
-{Colors.SOFT_GREEN}{Colors.ORQA_qora}  12. {Colors.SOFT_PINK} Exit                 🔚                                          {Colors.RESET}                           
+{Colors.SOFT_GREEN}{Colors.ORQA_qora}  0. {Colors.SOFT_PINK}  Exit                 🔚                                          {Colors.RESET}                           
 {Colors.SOFT_PURPLE}═════════════════════════════════════════════════════════════════════════{Colors.RESET}"""
 
 
@@ -87,11 +87,7 @@ def show_menu():
     typing_animation( "Please select an option..." )
 
 
-is_logged_in = False
-
-
 def main():
-    global is_logged_in
 
     while True:
         print( "\n=== Tizim ===" )
@@ -100,10 +96,10 @@ def main():
         print( "3. Log in" )
 
         #  "Log out"  faqat log in qilingan bo'lsa ko'rsatoladi
-        if is_logged_in:
+        if is_logged_in():
             print( "4. Log out" )
 
-        print( "5. Exit" )
+        print( "0. Exit" )
         choice = input( "Tanlovingizni kiriting: " ).strip()
 
         if choice == "1":
@@ -111,7 +107,7 @@ def main():
 
         elif choice == "2":
             # Ask for a password to view user information if logged in
-            if is_logged_in:
+            if is_logged_in():
                 special_password = input( "Please enter the special password to view user information: " ).strip()
                 if special_password == "your_password":  # Replace 'your_password' with actual logic
                     print( "Displaying user information..." )
@@ -124,14 +120,14 @@ def main():
         elif choice == "3":
             # Log in the user
             login()
-            is_logged_in = True  # Assume login is successful
 
-        elif choice == "4" and is_logged_in:
+
+        elif choice == "4" and is_logged_in():
             # Log out the user
             logout()
-            is_logged_in = False
 
-        elif choice == "5":
+
+        elif choice == "0":
             print( "Tizimdan chiqildi." )
             break
         else:
@@ -180,13 +176,13 @@ def main():
         elif user_choice == "11":
             play_voice_message( "You selected View Logs" )
             get_logs()
-        elif user_choice == "12":
+        elif user_choice == "0":
             play_voice_message( "You selected Exit" )
             print( "Exiting... Goodbye!" )
             break
         else:
             play_voice_message( "Invalid option. Please try again." )
-        time.sleep( 1 )
+        time.sleep(1)
 
 
 if __name__ == "__main__":
