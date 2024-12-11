@@ -137,7 +137,7 @@ def logout():
 # Foydalanuvchilarni ko'rish funksiyasi
 def view_users():
     try:
-        users = load_data_from_file()  # JSON fayldan foydalanuvchilarni yuklash
+        users = load_data_from_file("users", param_key="all",)  # JSON fayldan foydalanuvchilarni yuklash
         if users:  # Agar foydalanuvchilar mavjud bo'lsa
             print("\nFoydalanuvchilar ro'yxati:")
             for user in users:
