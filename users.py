@@ -1,11 +1,11 @@
-from data import load_data_from_file, save_data_to_file, update_data, delete_data
+
 import getpass
 import hashlib
 from data import *
 
 # JSON fayl nomi
 DATA_FILE = "users.json"
-ADMIN_PASSWORD = "amdin12345"
+ADMIN_PASSWORD = "admin12345"
 MANAGER_PASSWORD = "meneger12345"
 DIRECTOR_PSSWORD = "director12345"
 
@@ -80,11 +80,11 @@ def register():
                     raise ValueError("Director paroli notogri kiritildi")
 
             # Yangi foydalanuvchi identifikatori
-            user_id = len(users) + 1
+            new_user_id = load_data_from_file(file_name="users", param_key="id",) + 1
 
             # Yangi foydalanuvchini qo'shish
             new_user = {
-                "id": user_id,
+                "id": new_user_id,
                 "username": username,
                 "password": hashed_password,  # Parol xeshlangan holda saqlanadi
                 "first_name": first_name,
@@ -92,10 +92,10 @@ def register():
                 "phone": phone,
                 "role": role
             }
-            users.append(new_user)
+
 
             # JSON faylga yozish
-            save_data_to_file(users, file_name='users')
+            save_data_to_file(new_user, file_name='users')
             print("Ro'yxatdan muvaffaqiyatli o'tdingiz!")
             break  # Ro'yxatdan o'tish muvaffaqiyatli bo'lsa, siklni tugatish
         except ValueError as e:
@@ -137,7 +137,7 @@ def logout():
 # Foydalanuvchilarni ko'rish funksiyasi
 def view_users():
     try:
-        users = load_data_from_file(file_name="users", param_key="all")  # JSON fayldan foydalanuvchilarni yuklash
+        users = load_data_from_file()  # JSON fayldan foydalanuvchilarni yuklash
         if users:  # Agar foydalanuvchilar mavjud bo'lsa
             print("\nFoydalanuvchilar ro'yxati:")
             for user in users:
@@ -154,3 +154,28 @@ def view_users():
     except Exception as e:
         print(f"Xatolik yuz berdi: {e}")
 
+# Bosh menyu
+if __name__ == "__main__":
+    while True:
+        print("\n=== Tizim ===")
+
+        print("1. Ro'yxatdan o'tish")
+        print("2. Foydalanuvchilarni ko'rish")
+        print("3. Login")
+        print("4. Logout")
+        print("5. Exit")
+        choice = input("Tanlovingizni kiriting: ").strip()
+
+        if choice == "1":
+            register()
+        elif choice == "2":
+            view_users()
+        elif choice == "3":
+            login()
+        elif choice == "4":
+            logout()
+        elif choice == "5":
+            print("Tizimdan chiqildi.")
+            break
+        else:
+            print("Noto'g'ri tanlov. Qaytadan urinib ko'ring.")
