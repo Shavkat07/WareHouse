@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "Andijondagi Omborxona",
+        "location": "Andijon",
+        "capacity": 1000000000,
+        "current_capacity": 408
+    },
+    {
+        "id": 2,
+        "name": "Toshkent Sila",
+        "location": "Uzbekistan/Toshkent",
+        "capacity": 100000000,
+        "current_capacity": 0
+    }
+]
