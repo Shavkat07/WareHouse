@@ -39,7 +39,6 @@ pygame.mixer.init()
 # pygame.mixer.music.load( "output.mp3" )
 # pygame.mixer.music.play()
 
-log_out_opt = "12   Log Out"
 d = 0
 def play_voice_message(text):
     global d
@@ -137,9 +136,17 @@ def main():
 
                 else:
                     print( "Incorrect password." )
+                    time.sleep(2)
 
             elif choice == "0":
                 print( "Tizimdan chiqildi." )
+                play_voice_message("You selected Exit")
+                print("Exiting... Goodbye!")
+                pygame.mixer.music.unload()
+                for filename in os.listdir("Voices"):
+                    file_path = os.path.join("Voices", filename)
+                    if os.path.isfile(file_path):  # Check if it is a file
+                        os.remove(file_path)
                 return
             else:
                 print( "Noto'g'ri tanlov. Qaytadan urinib ko'ring." )

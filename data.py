@@ -2,7 +2,7 @@
 import os
 import json
 
-FILES_PATH = './DataBase/'
+FILES_PATH = './Database/'
 
 
 def save_data_to_file(data: dict, file_name: str):
@@ -33,6 +33,8 @@ def save_data_to_file(data: dict, file_name: str):
 
 def load_data_from_file(file_name: str, param_key: str, param_value=0, quantity=1):
 	if not os.path.exists(FILES_PATH + file_name + '.json'):
+		print('File not found')
+		print(FILES_PATH + file_name + '.json')
 		return None  # Если файла нет, пользователя нет
 
 	with open(FILES_PATH + file_name + '.json', 'r') as file:

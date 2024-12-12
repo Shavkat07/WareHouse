@@ -57,7 +57,7 @@ def register():
                 raise ValueError("Familiya uzunligi 50 ta belgidan oshmasligi va bo'sh bo'lmasligi kerak.")
 
             phone = int(''.join(input("Telefon raqamingizni kiriting (9 ta raqam): ").strip().split()))
-            if not (phone.isdigit() and len(phone) == 9):
+            if not (phone and len(str(phone)) == 9):
                 raise ValueError("Telefon raqami noto'g'ri. U 9 ta raqamdan iborat bo'lishi kerak.")
             # Takroriy telefon raqami tekshiruvi
             for user in users:

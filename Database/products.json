@@ -4,17 +4,7 @@
         "name": "Asus Tuf Gaming f15",
         "price": "1000$",
         "description": "pizdes",
-        "quantity": 1034,
-        "category": "Laptops",
-        "supplier_id": 1,
-        "warehouse_id": 1
-    },
-    {
-        "id": 2,
-        "name": "Asus Tuf Gaming f15",
-        "price": "1000$",
-        "description": "pizds",
-        "quantity": 299,
+        "quantity": 1049,
         "category": "Laptops",
         "supplier_id": 1,
         "warehouse_id": 1

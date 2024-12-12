@@ -26,7 +26,7 @@ def add_warehouse():
     warehouse['capacity'] = capacity
 
     save_data_to_file(file_name='warehouses', data=warehouse)
-
+    print("Warehouse Qushildi ")
     return "Warehouse Qushildi "
 
 
