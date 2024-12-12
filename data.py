@@ -88,7 +88,7 @@
 import os
 import json
 
-FILES_PATH = './DataBase/'
+FILES_PATH = './Database/'
 
 
 def save_data_to_file(data: dict, file_name: str):
