@@ -5,9 +5,9 @@ from data import *
 
 # JSON fayl nomi
 DATA_FILE = "users.json"
-ADMIN_PASSWORD = "amdin12345"
+ADMIN_PASSWORD = "admin12345"
 MANAGER_PASSWORD = "meneger12345"
-DIRECTOR_PSSWORD = "director12345"
+DIRECTOR_PASSWORD = "director12345"
 
 session = {"logged_in": False}
 
@@ -29,13 +29,18 @@ def register():
 
             # Foydalanuvchi1dan ma'lumotlarni kiritish
             username = input("Username kiriting: ").strip()
+
             if not username:
                 raise ValueError("Username kiritilishi shart.")
             # Takroriy username tekshiruvi
             for user in users:
                 if user['username'] == username:
-                    raise ValueError("Bu username allaqachon mavjud. Iltimos, boshqa username tanlang.")
-
+                    a = input("Bu username allaqachon mavjud. Login qilishni istaysizmi ('yes' or 'no'): ")
+                    if a == "yes":
+                        login()
+                        return "Logining"
+                    else:
+                        return
             # Parolni ko'rinmas holatda kiritish
 
             password = getpass.getpass("Password kiriting: ").strip()
@@ -51,8 +56,8 @@ def register():
             if len(last_name) > 50 or not last_name:
                 raise ValueError("Familiya uzunligi 50 ta belgidan oshmasligi va bo'sh bo'lmasligi kerak.")
 
-            phone = input("Telefon raqamingizni kiriting (9 ta raqam): ").strip()
-            if not (phone.isdigit() and len(phone) == 9):
+            phone = int(''.join(input("Telefon raqamingizni kiriting (9 ta raqam): ").strip().split()))
+            if not (phone and len(str(phone)) == 9):
                 raise ValueError("Telefon raqami noto'g'ri. U 9 ta raqamdan iborat bo'lishi kerak.")
             # Takroriy telefon raqami tekshiruvi
             for user in users:
@@ -76,15 +81,15 @@ def register():
 
             if role == "director":
                 director_password = getpass.getpass("director parolini kiriting").strip()
-                if director_password != DIRECTOR_PSSWORD:
+                if director_password != DIRECTOR_PASSWORD:
                     raise ValueError("Director paroli notogri kiritildi")
 
             # Yangi foydalanuvchi identifikatori
-            user_id = len(users) + 1
+            new_user_id = load_data_from_file(file_name="users", param_key="id",) + 1
 
             # Yangi foydalanuvchini qo'shish
             new_user = {
-                "id": user_id,
+                "id": new_user_id,
                 "username": username,
                 "password": hashed_password,  # Parol xeshlangan holda saqlanadi
                 "first_name": first_name,
@@ -92,10 +97,10 @@ def register():
                 "phone": phone,
                 "role": role
             }
-            users.append(new_user)
+
 
             # JSON faylga yozish
-            save_data_to_file(users, file_name='users')
+            save_data_to_file(new_user, file_name='users')
             print("Ro'yxatdan muvaffaqiyatli o'tdingiz!")
             break  # Ro'yxatdan o'tish muvaffaqiyatli bo'lsa, siklni tugatish
         except ValueError as e:
@@ -117,7 +122,7 @@ def login():
             if user["username"] == username and user["password"] == hashed_password:
                 print(f"Xush kelibsiz, {user['first_name']} {user['last_name']}! Sizning rolingiz: {user['role']}.")
                 session['logged_in'] = True
-                return  # Login muvaffaqiyatli bo'lsa, funksiyani tugatish
+                return "Login Successfully" # Login muvaffaqiyatli bo'lsa, funksiyani tugatish
 
         # Agar foydalanuvchi topilmasa
         print("Username yoki password noto'g'ri.")
@@ -130,14 +135,14 @@ def logout():
         print("Siz royhatdan otmagansiz.")
         return
     session["logged_in"] = False
-    print("Siz sistemaga kirdinggiz.")
+    print("Siz sistemadan chiqdingiz.")
 
 
 
 # Foydalanuvchilarni ko'rish funksiyasi
 def view_users():
     try:
-        users = load_data()  # JSON fayldan foydalanuvchilarni yuklash
+        users = load_data_from_file("users", param_key="all",)  # JSON fayldan foydalanuvchilarni yuklash
         if users:  # Agar foydalanuvchilar mavjud bo'lsa
             print("\nFoydalanuvchilar ro'yxati:")
             for user in users:
@@ -154,28 +159,3 @@ def view_users():
     except Exception as e:
         print(f"Xatolik yuz berdi: {e}")
 
-# Bosh menyu
-if __name__ == "__main__":
-    while True:
-        print("\n=== Tizim ===")
-
-        print("1. Ro'yxatdan o'tish")
-        print("2. Foydalanuvchilarni ko'rish")
-        print("3. Login")
-        print("4. Logout")
-        print("5. Exit")
-        choice = input("Tanlovingizni kiriting: ").strip()
-
-        if choice == "1":
-            register()
-        elif choice == "2":
-            view_users()
-        elif choice == "3":
-            login()
-        elif choice == "4":
-            logout()
-        elif choice == "5":
-            print("Tizimdan chiqildi.")
-            break
-        else:
-            print("Noto'g'ri tanlov. Qaytadan urinib ko'ring.")

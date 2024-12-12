@@ -1,89 +1,3 @@
-#
-# import json
-# import os
-#
-# WAREHOUSES_FILE = 'warehouses.json'
-# PRODUCTS_FILE = 'products.json'
-# CATEGORIES_FILE = 'categories.json'
-# SUPPLIERS_FILE = 'suppliers.json'
-# USERS_FILE = 'users.json'
-# TRANSACTIONS_FILE = 'transactions.json'
-# AUDIT_LOGS_FILE = 'audit_logs.json'
-#
-#
-# def load_data(filename):
-#     if os.path.exists(filename):
-#         with open(filename, 'r') as f:
-#             return json.load(f)
-#     return []
-#
-# def save_data(filename, data):
-#     with open(filename, 'w') as f:
-#         json.dump(data, f, indent=4)
-#
-#
-# def add_warehouse(warehouse):
-#     warehouses = load_data( WAREHOUSES_FILE )
-#     warehouses.append(warehouse)
-#     save_data( WAREHOUSES_FILE, warehouses )
-#
-# def get_warehouses():
-#     return load_data( WAREHOUSES_FILE )
-#
-#
-# def add_product(product):
-#     products = load_data( PRODUCTS_FILE )
-#     products.append(product)
-#     save_data( PRODUCTS_FILE, products )
-#
-# def get_products():
-#     return load_data( PRODUCTS_FILE )
-#
-#
-# def add_category(category):
-#     categories = load_data(CATEGORIES_FILE)
-#     categories.append(category)
-#     save_data(CATEGORIES_FILE, categories)
-#
-# def get_categories():
-#     return load_data(CATEGORIES_FILE)
-#
-#
-# def add_supplier(supplier):
-#     suppliers = load_data(SUPPLIERS_FILE)
-#     suppliers.append(supplier)
-#     save_data(SUPPLIERS_FILE, suppliers)
-#
-# def get_suppliers():
-#     return load_data(SUPPLIERS_FILE)
-#
-# def add_user(user):
-#     users = load_data(USERS_FILE)
-#     users.append(user)
-#     save_data(USERS_FILE, users)
-#
-# def get_users():
-#     return load_data(USERS_FILE)
-#
-#
-#
-# def add_transaction(transaction):
-#     transactions = load_data(TRANSACTIONS_FILE)
-#     transactions.append(transaction)
-#     save_data(TRANSACTIONS_FILE, transactions)
-#
-# def get_transactions():
-#     return load_data(TRANSACTIONS_FILE)
-#
-#
-#
-# def add_audit_log(log):
-#     audit_logs = load_data(AUDIT_LOGS_FILE)
-#     audit_logs.append(log)
-#     save_data(AUDIT_LOGS_FILE, audit_logs)
-#
-# def get_audit_logs():
-#     return load_data(AUDIT_LOGS_FILE)
 
 import os
 import json
@@ -119,6 +33,8 @@ def save_data_to_file(data: dict, file_name: str):
 
 def load_data_from_file(file_name: str, param_key: str, param_value=0, quantity=1):
 	if not os.path.exists(FILES_PATH + file_name + '.json'):
+		print('File not found')
+		print(FILES_PATH + file_name + '.json')
 		return None  # Если файла нет, пользователя нет
 
 	with open(FILES_PATH + file_name + '.json', 'r') as file:
@@ -190,15 +106,8 @@ def update_data(file_name: str, obj_id:int, param_key: str, new_param_value):
 		print(f"Произошла ошибка: {e}")
 
 
-def delete_data(file_name: str, param_key: str, param_value=+ 1) :
-	"""
-	Обновляет параметр `status` объекта с заданным `id` в JSON-файле.
+def delete_data(file_name: str, param_key: str, param_value=1) :
 
-	:param file_name: Имя файла JSON, где хранятся данные.
-	:param id: ID объекта, у которого нужно изменить статус.
-	:param param_key: Параметр объекта которого нужно изменить.
-	:param new_param_value: Новое значение для параметра `status`.
-	"""
 	file_path = FILES_PATH + file_name + '.json'
 	try:
 		# Открываем и загружаем данные из JSON-файла

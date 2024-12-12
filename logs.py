@@ -17,5 +17,5 @@ def get_logs(start_time=None, end_time=None,):
             if "timestamp" in log and start_time <= datetime.fromisoformat(log["timestamp"]) <= end_time
         ]
         return filtered_logs
-
+    print(logs)
     return logs

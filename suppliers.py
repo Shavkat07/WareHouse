@@ -10,11 +10,11 @@ def add_supplier():
         "email": '',
         'address': '',
     }
-    name = input("Enter your name: ")
+    name = input()
     new_supplier['name'] = name
-    contact_name = input("Enter your contact name: ")
+    contact_name = input()
     new_supplier['contact_name'] = contact_name
-    phone = input("Enter your phone number: ")
+    phone = input()
     if not (phone.isdigit() and len(phone) == 9):
         raise ValueError("Telefon raqami noto'g'ri. U 9 ta raqamdan iborat bo'lishi kerak.")
     # Takroriy telefon raqami tekshiruvi
@@ -23,7 +23,7 @@ def add_supplier():
 
     new_supplier["phone"] = phone
 
-    email = input("Enter your email: ")
+    email = input()
 
     if load_data_from_file(file_name='suppliers', param_key='email', param_value=email) is None:
         if email.islower() and "@" in email:
@@ -35,7 +35,7 @@ def add_supplier():
         print("Email already exists!!!")
         return
 
-    address = input("Enter your address: ")
+    address = input()
     new_supplier['address'] = address
 
 
@@ -47,7 +47,7 @@ def add_supplier():
 
     save_data_to_file(file_name='suppliers', data=new_supplier)
     print(f"Таъминотчи {name} қўшилди.")
-
+    return new_supplier
 # Таъминотчиларни кўриш
 def view_suppliers():
     suppliers = load_data_from_file('suppliers', param_key='all')
@@ -55,8 +55,8 @@ def view_suppliers():
         print("Таъминотчилар рўйхати бўш.")
     else:
         for idx, supplier in enumerate(suppliers, start=1):
-            print(f"{idx}. Исим: {supplier['name']}, Компания: {supplier['company']}, "
-                  f"Миқдори: {supplier['quantity']}, Нархи: ${supplier['price']}")
+            print(f"{idx}. Ism: {supplier['contact_name']}, Company: {supplier['name']}, "
+                  f" Tel Raqami: {supplier['phone']}, Email: {supplier['email']}, Addressi: {supplier['address']} ")
 
 # Таъминотчини ўчириш
 def delete_supplier(supplier_id):
@@ -66,4 +66,3 @@ def delete_supplier(supplier_id):
     print(f"Таъминотчи ўчирилди.")
 
 
-add_supplier()

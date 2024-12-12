@@ -61,5 +61,32 @@
         "quantity": 199,
         "date": "2024-12-10T17:14:25.340157",
         "warehouse_id": 1
+    },
+    {
+        "id": 9,
+        "user": "shavkat",
+        "product_id": 2,
+        "transaction_type": "import",
+        "quantity": 100,
+        "date": "2024-12-11T16:42:55.482724",
+        "warehouse_id": 1
+    },
+    {
+        "id": 10,
+        "user": "shavkat",
+        "product_id": 3,
+        "transaction_type": "export",
+        "quantity": 50,
+        "date": "2024-12-11T18:06:24.555702",
+        "warehouse_id": 1
+    },
+    {
+        "id": 11,
+        "user": "shavkat",
+        "product_id": 1,
+        "transaction_type": "import",
+        "quantity": 15,
+        "date": "2024-12-12T13:55:35.674931",
+        "warehouse_id": 1
     }
 ]

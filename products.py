@@ -1,5 +1,6 @@
 from categories import add_category
 from data import load_data_from_file, save_data_to_file, update_data, delete_data
+from suppliers import add_supplier
 
 
 def add_product():
@@ -25,7 +26,7 @@ def add_product():
     description = input("Tavsif: ")
     product["description"] = description
 
-    quantity = int(input("Miqdori: "))
+    quantity = int(''.join(input("Miqdori: ").split()))
     product["quantity"] = quantity
 
     category = input("Kategoriya nomi: ")
@@ -42,15 +43,22 @@ def add_product():
             elif question == 'no':
                 print("Function failed.")
                 return
-            else:
-                pass
+
 
     supplier_id = int(input("Yetkazib beruvchi ID: "))
     if load_data_from_file('suppliers', param_key='id', param_value=supplier_id) is not None:
         product['supplier_id'] = supplier_id
     else:
-        print("Supplier doesn't exist.")
-        return
+        while True:
+            question = input("Bunaqa category hali mavjud emas. Yangi qushishni istaysizmi('yes' or 'no'): ")
+            if question == 'yes':
+                supplier = add_supplier()
+                product['supplier_id'] = supplier['id']
+                break
+            elif question == 'no':
+                print("Function failed.")
+                return
+
 
     warehouse_id = int(input("Ombor ID: "))
 
@@ -73,13 +81,25 @@ def add_product():
     update_data(file_name='warehouses', obj_id=warehouse_id, param_key='current_capacity', new_param_value=warehouse_capacity)
     return product
 
-def delete_product(product_id):
+def delete_product():
+    product_id = int(input("Product id ni kiriting: "))
     delete_data(file_name='products', param_key='id', param_value=product_id)
     print("Product Deleted Successfully")
     return
 
 def view_products():
-    """JSON fayldan barcha mahsulotlarni o'qiydi va qaytaradi."""
-    return load_data_from_file(file_name='products', param_key='all')
+    products = load_data_from_file(file_name='products', param_key='all')
+    if products is not None:
+        for i in products:
+            print(f"""
+                Products id: {i['id']}
+                Products name is: {i['name']}
+                Products category is: {i['category']}
+                Products price is : {i['price']}
+                Products quantity is : {i['quantity']}  
+            """)
+    else:
+        print("Список транзакций пуст.")
+    return
 
 

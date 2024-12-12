@@ -3,5 +3,10 @@
         "id": 1,
         "name": "Laptops",
         "description": "Noutbuklar kategoriyasi"
+    },
+    {
+        "id": 2,
+        "name": "Phones",
+        "description": "Telefonlar "
     }
 ]
