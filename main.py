@@ -121,6 +121,8 @@ def main():
                 if l == 'Login Successfully':
                     time.sleep(2)
                     break
+                else:
+                    time.sleep(2)
 
             elif choice == "3":
                 # Ask for a password to view user information if logged in
@@ -147,86 +149,85 @@ def main():
                     file_path = os.path.join("Voices", filename)
                     if os.path.isfile(file_path):  # Check if it is a file
                         os.remove(file_path)
-                return
+                return "Exit"
             else:
                 print( "Noto'g'ri tanlov. Qaytadan urinib ko'ring." )
 
-    register_page()
+    if register_page() != "Exit":
+        while True:
+            show_menu()
+            user_choice = input( f"{Colors.GOLD}{Colors.BG_GRAY} Enter your choice: {Colors.RESET}" ).strip()
 
-    while True:
-        show_menu()
-        user_choice = input( f"{Colors.GOLD}{Colors.BG_GRAY} Enter your choice: {Colors.RESET}" ).strip()
+            if user_choice == "1":
+                play_voice_message( "You selected Add Transaction" )
+                create_transaction()
+                back_to_menu()
 
-        if user_choice == "1":
-            play_voice_message( "You selected Add Transaction" )
-            create_transaction()
-            back_to_menu()
+            elif user_choice == "2":
+                play_voice_message( "You selected View Transactions" )
+                view_transactions()
+                back_to_menu()
+            elif user_choice == "3":
+                play_voice_message( "You selected Add Product" )
+                add_product()
+                back_to_menu()
+            elif user_choice == "4":
+                play_voice_message( "You selected View Products" )
+                view_products()
+                back_to_menu()
 
-        elif user_choice == "2":
-            play_voice_message( "You selected View Transactions" )
-            view_transactions()
-            back_to_menu()
-        elif user_choice == "3":
-            play_voice_message( "You selected Add Product" )
-            add_product()
-            back_to_menu()
-        elif user_choice == "4":
-            play_voice_message( "You selected View Products" )
-            view_products()
-            back_to_menu()
+            elif user_choice == "5":
+                play_voice_message( "You selected Delete Product" )
+                delete_product()
+                back_to_menu()
+            elif user_choice == "6":
+                play_voice_message( "You selected Add Supplier" )
+                add_supplier()
+                back_to_menu()
+            elif user_choice == "7":
+                play_voice_message( "You selected View Suppliers" )
+                view_suppliers()
+                back_to_menu()
+            elif user_choice == "8":
+                play_voice_message( "You selected Add Warehouse" )
+                add_warehouse()
+                back_to_menu()
+            elif user_choice == "9":
+                play_voice_message( "You selected View Warehouse Info" )
+                for i in load_data_from_file( file_name="warehouses", param_key="all" ):
+                    print( f""" Warehouse id: {i['id']} 
+                        Warehouse name: {i['name']}
+                        Warehouse location: {i['location']}
+                        Warehouse general capacity: {i['capacity']}
+                        Warehouse current capacity: {i['current_capacity']}    
+                    """ )
+                back_to_menu()
+            elif user_choice == "10":
+                play_voice_message( "You selected Create Report" )
+                generate_report()
+                back_to_menu()
+            elif user_choice == "11":
+                play_voice_message( "You selected View Logs" )
+                get_logs()
+                back_to_menu()
 
-        elif user_choice == "5":
-            play_voice_message( "You selected Delete Product" )
-            delete_product()
-            back_to_menu()
-        elif user_choice == "6":
-            play_voice_message( "You selected Add Supplier" )
-            add_supplier()
-            back_to_menu()
-        elif user_choice == "7":
-            play_voice_message( "You selected View Suppliers" )
-            view_suppliers()
-            back_to_menu()
-        elif user_choice == "8":
-            play_voice_message( "You selected Add Warehouse" )
-            add_warehouse()
-            back_to_menu()
-        elif user_choice == "9":
-            play_voice_message( "You selected View Warehouse Info" )
-            for i in load_data_from_file( file_name="warehouses", param_key="all" ):
-                print( f""" Warehouse id: {i['id']} 
-                    Warehouse name: {i['name']}
-                    Warehouse location: {i['location']}
-                    Warehouse general capacity: {i['capacity']}
-                    Warehouse current capacity: {i['current_capacity']}    
-                """ )
-            back_to_menu()
-        elif user_choice == "10":
-            play_voice_message( "You selected Create Report" )
-            generate_report()
-            back_to_menu()
-        elif user_choice == "11":
-            play_voice_message( "You selected View Logs" )
-            get_logs()
-            back_to_menu()
-
-        elif user_choice == "12":
-            play_voice_message("Goodbye")
-            # Log out the user
-            logout()
-            register_page()
-        elif user_choice == "0":
-            play_voice_message( "You selected Exit" )
-            print( "Exiting... Goodbye!" )
-            pygame.mixer.music.unload()
-            for filename in os.listdir( "Voices" ):
-                file_path = os.path.join( "Voices", filename )
-                if os.path.isfile( file_path ):  # Check if it is a file
-                    os.remove( file_path )
-            break
-        else:
-            play_voice_message( "Invalid option. Please try again." )
-        time.sleep(2)
+            elif user_choice == "12":
+                play_voice_message("Goodbye")
+                # Log out the user
+                logout()
+                register_page()
+            elif user_choice == "0":
+                play_voice_message( "You selected Exit" )
+                print( "Exiting... Goodbye!" )
+                pygame.mixer.music.unload()
+                for filename in os.listdir( "Voices" ):
+                    file_path = os.path.join( "Voices", filename )
+                    if os.path.isfile( file_path ):  # Check if it is a file
+                        os.remove( file_path )
+                break
+            else:
+                play_voice_message( "Invalid option. Please try again." )
+            time.sleep(2)
 
 
 if __name__ == "__main__":
