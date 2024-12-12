@@ -2,7 +2,6 @@ from fpdf import FPDF
 from datetime import datetime
 from data import load_data_from_file
 
-
 def get_filters():
     """Foydalanuvchidan qo'shimcha filtrlash parametrlarini so'rash."""
     print("\nQo'shimcha filtrlash:")
@@ -10,7 +9,6 @@ def get_filters():
     product_names = input("Tovar nomlarini kiriting (vergul bilan ajrating yoki bo'sh qoldiring): ").strip()
     product_names = [name.strip() for name in product_names.split(',')] if product_names else []
     return transaction_type, product_names
-
 
 def generate_report():
     """Hisobot yaratish funksiyasi."""
@@ -27,7 +25,6 @@ def generate_report():
     product_totals = {}
     total_quantity = 0
     total_value = 0.0
-    max_selling_product = {}
     product_sales = {}
 
     for i in transactions:
@@ -42,22 +39,29 @@ def generate_report():
                     chiqarilgan_tovarlar += 1
 
                 # Narxni hisoblash
-                if 'price' in i and 'quantity' in i:
-                    umumiy_summa += i['price'] * i['quantity']
+                try:
+                    narx = float(i.get('price', 0))
+                    miqdor = int(i.get('quantity', 0))
+                    umumiy = narx * miqdor
+                    umumiy_summa += umumiy
+
                     product_name = i.get('product_name')
                     if product_name:
                         if product_name not in product_totals:
                             product_totals[product_name] = 0
-                        product_totals[product_name] += i['price'] * i['quantity']
+                        product_totals[product_name] += umumiy
 
                         # Umumiy miqdor va qiymatni hisoblash
-                        total_quantity += i['quantity']
-                        total_value += i['price'] * i['quantity']
+                        total_quantity += miqdor
+                        total_value += umumiy
 
                         # Maxsulot sotilishi haqida ma'lumot
                         if product_name not in product_sales:
                             product_sales[product_name] = 0
-                        product_sales[product_name] += i['quantity']
+                        product_sales[product_name] += miqdor
+
+                except (ValueError, TypeError) as e:
+                    print(f"Xato: Tranzaktsiyadagi narx yoki miqdor noto'g'ri formatda. Ma'lumot: {i}")
 
     # Maxsulot bo'yicha eng ko'p sotilganini topish
     max_selling_product = max(product_sales, key=product_sales.get, default=None)
@@ -65,7 +69,7 @@ def generate_report():
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("Arial", size=8)
 
     pdf.cell(200, 10, txt="Hisobot", ln=True, align='C')
     pdf.cell(200, 10, txt=f"{start_date.date()} dan {end_date.date()} gacha", ln=True, align='C')
@@ -83,11 +87,11 @@ def generate_report():
 
     # Har bir tranzaktsiya haqida qo'shimcha ma'lumotlar va narxni chiqarish
     for item in filtered_data:
-        narx = item.get('price', 0)
-        miqdor = item.get('quantity', 0)
+        narx = float(item.get('price', 0))
+        miqdor = int(item.get('quantity', 0))
         umumiy = narx * miqdor
-        supplier = item.get('supplier', 'N/A')  # Qo'shimcha maydon (masalan, yetkazib beruvchi)
-        transaction_id = item.get('transaction_id', 'N/A')  # Qo'shimcha maydon (masalan, tranzaktsiya raqami)
+        supplier = item.get('supplier', 'N/A')
+        transaction_id = item.get('transaction_id', 'N/A')
 
         pdf.cell(0, 10,
                  txt=f"Sana: {item['date']}, Turi: {item['transaction_type']}, "
@@ -110,4 +114,3 @@ def generate_report():
 
     pdf.output(file_name)
     print(f"Hisobot saqlandi: {file_name}")
-
