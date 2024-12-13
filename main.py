@@ -204,13 +204,12 @@ def main():
                 back_to_menu()
             elif user_choice == "10":
                 play_voice_message( "You selected Create Report" )
-                generate_report()
+                generate_report("hisobot.pdf")
                 back_to_menu()
             elif user_choice == "11":
                 play_voice_message( "You selected View Logs" )
                 get_logs()
                 back_to_menu()
-
             elif user_choice == "12":
                 play_voice_message("Goodbye")
                 # Log out the user
