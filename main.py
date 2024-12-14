@@ -2,6 +2,8 @@ import getpass
 import os
 import time
 import pygame
+import threading
+
 
 from gtts import gTTS
 
@@ -34,16 +36,21 @@ pygame.mixer.init()
 
 d = 0
 
+
 def play_voice_message(text):
     global d
     tts = gTTS(text=text, lang='en')
-    tts.save(f"Media/Voices/selection_{d}.mp3")
-    pygame.mixer.music.load(f"Media/Voices/selection_{d}.mp3")
-    pygame.mixer.music.play()
+    filename = f"Media/Voices/selection_{d}.mp3"
+    tts.save(filename)
 
-    while pygame.mixer.music.get_busy():
-        pygame.time.Clock().tick(10)
+    # Создаем отдельный поток для воспроизведения звука
+    threading.Thread(target=play_audio, args=(filename,)).start()
     d += 1
+
+def play_audio(filename):
+    pygame.mixer.init()  # Инициализация pygame mixer
+    pygame.mixer.music.load(filename)
+    pygame.mixer.music.play()
 
 def clear_console():
     command = 'cls' if os.name == 'nt' else 'clear'
