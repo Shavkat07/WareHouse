@@ -1,2 +1,4 @@
 pygame~=2.6.1
 gTTS~=2.5.4
+keyboard~=0.13.5
+fpdf~=1.7.2
