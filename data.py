@@ -1,7 +1,5 @@
-
 import os
 import json
-
 FILES_PATH = './Database/'
 
 
