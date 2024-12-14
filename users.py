@@ -1,4 +1,3 @@
-
 import getpass
 import hashlib
 from data import *
@@ -37,8 +36,11 @@ def register():
                 if user['username'] == username:
                     a = input("Bu username allaqachon mavjud. Login qilishni istaysizmi ('yes' or 'no'): ")
                     if a == "yes":
-                        login()
-                        return "Logining"
+                        if login() == "Login Successfully":
+                            return "Logining"
+
+                        return "Login Failed"
+
                     else:
                         return
             # Parolni ko'rinmas holatda kiritish

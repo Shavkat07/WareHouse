@@ -1,6 +1,4 @@
-import json
-from data import load_data_from_file, save_data_to_file, update_data
-
+from data import load_data_from_file, save_data_to_file
 
 def add_warehouse():
     warehouse={

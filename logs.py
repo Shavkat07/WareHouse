@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from data import save_data_to_file, load_data_from_file
 
