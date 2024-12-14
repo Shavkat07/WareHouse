@@ -10,11 +10,11 @@ def add_supplier():
         "email": '',
         'address': '',
     }
-    name = input()
+    name = input("Company name: ")
     new_supplier['name'] = name
-    contact_name = input()
+    contact_name = input("Contact name: ")
     new_supplier['contact_name'] = contact_name
-    phone = input()
+    phone = input("Phone: ")
     if not (phone.isdigit() and len(phone) == 9):
         raise ValueError("Telefon raqami noto'g'ri. U 9 ta raqamdan iborat bo'lishi kerak.")
     # Takroriy telefon raqami tekshiruvi
@@ -23,7 +23,7 @@ def add_supplier():
 
     new_supplier["phone"] = phone
 
-    email = input()
+    email = input("Email: ")
 
     if load_data_from_file(file_name='suppliers', param_key='email', param_value=email) is None:
         if email.islower() and "@" in email:
@@ -35,7 +35,7 @@ def add_supplier():
         print("Email already exists!!!")
         return
 
-    address = input()
+    address = input("Address: ")
     new_supplier['address'] = address
 
 
@@ -46,13 +46,13 @@ def add_supplier():
         new_supplier["id"] = 1
 
     save_data_to_file(file_name='suppliers', data=new_supplier)
-    print(f"Таъминотчи {name} қўшилди.")
+    print(f"Ta'minotchi {name} qo'shildi.")
     return new_supplier
 # Таъминотчиларни кўриш
 def view_suppliers():
     suppliers = load_data_from_file('suppliers', param_key='all')
     if not suppliers:
-        print("Таъминотчилар рўйхати бўш.")
+        print("Ta'minotchilar ro'yxati bo'sh.")
     else:
         for idx, supplier in enumerate(suppliers, start=1):
             print(f"{idx}. Ism: {supplier['contact_name']}, Company: {supplier['name']}, "

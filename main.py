@@ -237,7 +237,7 @@ import getpass
 import os
 import time
 import pygame
-import keyboard  # Import the keyboard module
+
 from gtts import gTTS
 
 from data import load_data_from_file
@@ -272,15 +272,11 @@ d = 0
 def play_voice_message(text):
     global d
     tts = gTTS(text=text, lang='en')
-    tts.save(f"Voices/selection_{d}.mp3")
-    pygame.mixer.music.load(f"Voices/selection_{d}.mp3")
+    tts.save(f"Media/Voices/selection_{d}.mp3")
+    pygame.mixer.music.load(f"Media/Voices/selection_{d}.mp3")
     pygame.mixer.music.play()
 
     while pygame.mixer.music.get_busy():
-        if keyboard.is_pressed('space'):  # If the space bar is pressed, stop the sound
-            pygame.mixer.music.stop()
-            print("Audio stopped manually.")
-            break
         pygame.time.Clock().tick(10)
     d += 1
 
@@ -377,8 +373,8 @@ def main():
                 play_voice_message("You selected Exit")
                 print("Exiting... Goodbye!")
                 pygame.mixer.music.unload()
-                for filename in os.listdir("Voices"):
-                    file_path = os.path.join("Voices", filename)
+                for filename in os.listdir("Media/Voices"):
+                    file_path = os.path.join("Media/Voices", filename)
                     if os.path.isfile(file_path):
                         os.remove(file_path)
                 return "Exit"
@@ -463,8 +459,8 @@ def main():
                 play_voice_message("You selected Exit")
                 print("Exiting... Goodbye!")
                 pygame.mixer.music.unload()
-                for filename in os.listdir("Voices"):
-                    file_path = os.path.join("Voices", filename)
+                for filename in os.listdir("Media/Voices"):
+                    file_path = os.path.join("Media/Voices", filename)
                     if os.path.isfile(file_path):
                         os.remove(file_path)
                 break

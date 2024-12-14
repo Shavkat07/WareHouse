@@ -139,7 +139,7 @@ def create_dynamic_logo(category, logo_size=100):
 
 def generate_qr_code_with_dynamic_logo(product):
 
-    qr_data = f"ID: {product['id']}\nName: {product['name']}\nPrice: {product['price']}\nDescription: {product['description']}\nQuantity: {product['quantity']}\nCategory: {product['category']}"
+    qr_data = f"ID: {product['id']}\nName: {product['name']}\nPrice: {product['price']}\nDescription: {product['description']}\nCategory: {product['category']}"
 
     qr = qrcode.QRCode(
         version=1,
@@ -167,7 +167,7 @@ def generate_qr_code_with_dynamic_logo(product):
     qr_img.paste( logo, logo_position, mask=logo.convert( "RGBA" ).split()[3] )
 
 
-    qr_dir = "C:/Users/Asus/PycharmProjects/AwareHOUSE/qr_codes"
+    qr_dir = "./Media/Qrcodes"
     os.makedirs( qr_dir, exist_ok=True )
 
     qr_filename = os.path.join( qr_dir, f"product_{product['id']}_qr_with_dynamic_logo.png" )
@@ -220,7 +220,7 @@ def add_product():
                 return
 
     supplier_id = int( input( "Yetkazib beruvchi ID: " ) )
-    if load_data_from_file( 'suppliers', param_key='id', param_value=supplier_id ) is not None:
+    if supplier_id != 0 and load_data_from_file( 'suppliers', param_key='id', param_value=supplier_id ) is not None:
         product['supplier_id'] = supplier_id
     else:
         while True:

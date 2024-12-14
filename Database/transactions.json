@@ -97,5 +97,59 @@
         "quantity": 15,
         "date": "2024-12-14T18:58:34.681540",
         "warehouse_id": 1
+    },
+    {
+        "id": 13,
+        "user": "shavkat",
+        "product_id": 2,
+        "transaction_type": "export",
+        "quantity": 15,
+        "date": "2024-12-14T21:51:39.506723",
+        "warehouse_id": 1
+    },
+    {
+        "id": 14,
+        "user": "shavkat",
+        "product_id": 4,
+        "transaction_type": "import",
+        "quantity": 60,
+        "date": "2024-12-14T22:23:34.928466",
+        "warehouse_id": 1
+    },
+    {
+        "id": 15,
+        "user": "shavkat",
+        "product_id": 3,
+        "transaction_type": "import",
+        "quantity": 50,
+        "date": "2024-12-14T22:24:15.348260",
+        "warehouse_id": 1
+    },
+    {
+        "id": 16,
+        "user": "shavkat",
+        "product_id": 5,
+        "transaction_type": "import",
+        "quantity": 10,
+        "date": "2024-12-14T22:35:12.895754",
+        "warehouse_id": 1
+    },
+    {
+        "id": 17,
+        "user": "shavkat",
+        "product_id": 6,
+        "transaction_type": "import",
+        "quantity": 10,
+        "date": "2024-12-14T22:50:41.092719",
+        "warehouse_id": 1
+    },
+    {
+        "id": 18,
+        "user": "shavkat",
+        "product_id": 7,
+        "transaction_type": "import",
+        "quantity": 100,
+        "date": "2024-12-14T23:05:59.451587",
+        "warehouse_id": 1
     }
 ]

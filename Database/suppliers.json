@@ -6,5 +6,21 @@
         "phone": "994212912",
         "email": "laksdjfk@gmail.com",
         "address": "California"
+    },
+    {
+        "id": 2,
+        "name": "Apple ",
+        "contact_name": "Steve Jobs",
+        "phone": "999999999",
+        "email": "apple@icloud.com",
+        "address": "California"
+    },
+    {
+        "id": 3,
+        "name": "2E Gaming ",
+        "contact_name": "John Doe",
+        "phone": "777777777",
+        "email": "2egaming@gmail.com",
+        "address": "Kyiv, 04073, Ukraine, 18A Marka Vovchka st"
     }
 ]

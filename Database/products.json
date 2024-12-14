@@ -14,17 +14,17 @@
         "name": "Acer Aspire 4",
         "price": "500$",
         "description": "good",
-        "quantity": 50,
+        "quantity": 35,
         "category": "Laptops",
         "supplier_id": 1,
         "warehouse_id": 1
     },
     {
         "id": 3,
-        "name": "Acer Aspire 4",
-        "price": "500$",
+        "name": "Acer Aspire 7",
+        "price": "800$",
         "description": "good",
-        "quantity": 50,
+        "quantity": 100,
         "category": "Laptops",
         "supplier_id": 1,
         "warehouse_id": 1
@@ -34,9 +34,39 @@
         "name": "Infinix HOT 40 Pro",
         "price": "250$",
         "description": "Camera 108 MP",
-        "quantity": 10,
+        "quantity": 70,
         "category": "Phones",
         "supplier_id": 1,
+        "warehouse_id": 1
+    },
+    {
+        "id": 5,
+        "name": "MacBook Air 13.6 M3 8/256GB SPACE GRAY USA",
+        "price": "1121.64",
+        "description": "MacBook Air ish va o'yin uchun juda mos keladi va M3 chipi dunyodagi eng mashhur noutbukni yanada kuchliroq qiladi. 18 soatlik batareya quvvati bilan siz super-portativ MacBook Air-ni istalgan joyga olib ketishingiz mumkin va MacBook Air juda yengil va hayotingizga bemalol mos keladi.",
+        "quantity": 10,
+        "category": "Laptops",
+        "supplier_id": 2,
+        "warehouse_id": 1
+    },
+    {
+        "id": 6,
+        "name": "Noutbuk Apple MacBook Pro 14\"/16'' M4 kumush rang",
+        "price": "4284",
+        "description": "Displeyni yangilash tezligi 120 Gts gacha moslashuvchan yangilash tezligi uchun ProMotion texnologiyasi Ruxsat etilgan yangilash tezligi: 47,95Hz, 48,00Hz, 50,00Hz, 59,94Hz, 60,00Hz. O'lchamlari 31,26 \u00d7 22,12 \u00d7 1,55 sm Og'irligi 1,55 kg Mahsulot taqdimot sanasi 2024 yil.",
+        "quantity": 10,
+        "category": "Laptops",
+        "supplier_id": 2,
+        "warehouse_id": 1
+    },
+    {
+        "id": 7,
+        "name": "O'yin quloqchinlari 2E Gaming HG330 RGB",
+        "price": "30",
+        "description": "Eshitish vositasi turi Simli. Maqsad O\u02bbyin. Eshitish vositasi turi Hisob-fakturalar. O'rnatish turi Bosh bandi Chastota diapazoni, Hz 20-20000. Mikrofon Ha. Mikrofon chastota diapazoni, Hz 100-10000.",
+        "quantity": 100,
+        "category": "Quloqchinlar",
+        "supplier_id": 3,
         "warehouse_id": 1
     }
 ]
