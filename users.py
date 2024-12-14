@@ -1,4 +1,3 @@
-
 import getpass
 import hashlib
 from data import *
