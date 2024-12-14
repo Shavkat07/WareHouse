@@ -1,113 +1,91 @@
-from fpdf import FPDF
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
 from datetime import datetime
 from data import load_data_from_file
 
 
-def get_filters():
-    """Foydalanuvchidan qo'shimcha filtrlash parametrlarini so'rash."""
-    print("\nQo'shimcha filtrlash:")
-    transaction_type = input("Tranzaktsiya turi (import/export yoki bo'sh qoldiring): ").strip()
-    product_names = input("Tovar nomlarini kiriting (vergul bilan ajrating yoki bo'sh qoldiring): ").strip()
-    product_names = [name.strip() for name in product_names.split(',')] if product_names else []
-    return transaction_type, product_names
-
-
-def generate_report():
-    """Hisobot yaratish funksiyasi."""
-    transactions = load_data_from_file(file_name='transactions', param_key='all')
+def generate_pdf(file_name):
     start_date = datetime.fromisoformat(input("Boshlanish sanasini kiriting (yyyy-mm-dd): "))
     end_date = datetime.fromisoformat(input("Tugash sanasini kiriting (yyyy-mm-dd): "))
-    transaction_type, product_names = get_filters()
+    ustama_foiz = 10
+    # Создаем PDF файл
+    pdf = canvas.Canvas(file_name, pagesize=A4)
+    pdf.setTitle("Hisobot")
 
-    file_name = 'report.pdf'
-    kelgan_tovarlar = 0
-    chiqarilgan_tovarlar = 0
-    umumiy_summa = 0.0
-    filtered_data = []
-    product_totals = {}
-    total_quantity = 0
-    total_value = 0.0
-    max_selling_product = {}
-    product_sales = {}
+    # Устанавливаем базовые параметры
+    width, height = A4
+    margin = 50
+    text_x = margin
+    y_position = height - margin
 
-    for i in transactions:
-        if start_date <= datetime.fromisoformat(i['date']) <= end_date:
-            # Filtrlash shartlari
-            if (not transaction_type or i['transaction_type'] == transaction_type) and \
-                    (not product_names or i.get('product_name') in product_names):
-                filtered_data.append(i)
-                if i['transaction_type'] == 'import':
-                    kelgan_tovarlar += 1
-                elif i['transaction_type'] == 'export':
-                    chiqarilgan_tovarlar += 1
+    # Заголовок
+    pdf.setFont("Helvetica-Bold", 20)
+    pdf.setFillColor(colors.darkblue)
+    pdf.drawString(text_x, y_position, "Hisobot")
+    y_position -= 40
 
-                # Narxni hisoblash
-                if 'price' in i and 'quantity' in i:
-                    umumiy_summa += i['price'] * i['quantity']
-                    product_name = i.get('product_name')
-                    if product_name:
-                        if product_name not in product_totals:
-                            product_totals[product_name] = 0
-                        product_totals[product_name] += i['price'] * i['quantity']
+    # Даты
+    pdf.setFont("Helvetica", 12)
+    pdf.setFillColor(colors.black)
+    pdf.drawString(text_x, y_position, "Sana: 2024-12-12 dan 2025-01-01 gacha")
+    y_position -= 30
 
-                        # Umumiy miqdor va qiymatni hisoblash
-                        total_quantity += i['quantity']
-                        total_value += i['price'] * i['quantity']
+    # Подзаголовок
+    pdf.setFont("Helvetica-Bold", 16)
+    pdf.drawString(text_x, y_position, "Omborxonalar Statistikasi")
+    y_position -= 30
 
-                        # Maxsulot sotilishi haqida ma'lumot
-                        if product_name not in product_sales:
-                            product_sales[product_name] = 0
-                        product_sales[product_name] += i['quantity']
+    # Данные по складам (пример для двух складов)
+    warehouses = load_data_from_file(file_name="warehouses", param_key="all")
 
-    # Maxsulot bo'yicha eng ko'p sotilganini topish
-    max_selling_product = max(product_sales, key=product_sales.get, default=None)
+    # Рендеринг данных по каждому складу
+    for warehouse in warehouses:
+        import_qilingan_tovarlar = 0
+        xarajatlar = 0
+        kirgan_summa = 0
+        export_qilingan_tovarlar = 0
+        foyda = 0
 
-    pdf = FPDF()
-    pdf.set_auto_page_break(auto=True, margin=15)
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
+        for transaction in load_data_from_file(file_name="transactions", param_key="warehouse_id", param_value=warehouse["id"], quantity="all"):
+            if start_date <= datetime.fromisoformat(transaction['date']) <= end_date:
+                product = load_data_from_file(file_name="products", param_key="id", param_value=transaction["product_id"])
 
-    pdf.cell(200, 10, txt="Hisobot", ln=True, align='C')
-    pdf.cell(200, 10, txt=f"{start_date.date()} dan {end_date.date()} gacha", ln=True, align='C')
+                if transaction["transaction_type"] == "import":
+                    import_qilingan_tovarlar += transaction["quantity"]
+                    xarajatlar += transaction["quantity"] * float(product['price'][0:-1])
 
-    if transaction_type:
-        pdf.cell(200, 10, txt=f"Tranzaktsiya turi: {transaction_type}", ln=True, align='C')
-    if product_names:
-        pdf.cell(200, 10, txt=f"Tovar nomlari: {', '.join(product_names)}", ln=True, align='C')
+                else:
+                    export_qilingan_tovarlar += transaction["quantity"]
+                    kirgan_summa += transaction["quantity"] * (float(product['price'][0:-1]) + float(product['price'][0:-1]) / 100 * ustama_foiz)
 
-    pdf.ln(10)
-    pdf.cell(0, 10, txt=f"Kelgan tovarlar: {kelgan_tovarlar}", ln=True)
-    pdf.cell(0, 10, txt=f"Chiqib ketgan tovarlar: {chiqarilgan_tovarlar}", ln=True)
-    pdf.cell(0, 10, txt=f"Umumiy summa: {umumiy_summa} so'm", ln=True)
-    pdf.ln(10)
+                    foyda += kirgan_summa / 100 * ustama_foiz
 
-    # Har bir tranzaktsiya haqida qo'shimcha ma'lumotlar va narxni chiqarish
-    for item in filtered_data:
-        narx = item.get('price', 0)
-        miqdor = item.get('quantity', 0)
-        umumiy = narx * miqdor
-        supplier = item.get('supplier', 'N/A')  # Qo'shimcha maydon (masalan, yetkazib beruvchi)
-        transaction_id = item.get('transaction_id', 'N/A')  # Qo'shimcha maydon (masalan, tranzaktsiya raqami)
 
-        pdf.cell(0, 10,
-                 txt=f"Sana: {item['date']}, Turi: {item['transaction_type']}, "
-                     f"Miqdor: {miqdor}, Narx: {narx} so'm, Umumiy: {umumiy} so'm, "
-                     f"Yetkazib beruvchi: {supplier}, Tranzaktsiya ID: {transaction_id}",
-                 ln=True)
 
-    # Har bir tovarning umumiy narxini chiqarish
-    pdf.ln(10)
-    for product, total in product_totals.items():
-        pdf.cell(0, 10, txt=f"{product} ning umumiy narxi: {total} so'm", ln=True)
 
-    # Umumiy summary (o'rtacha narx, eng ko'p sotilgan tovar)
-    if total_quantity > 0:
-        avg_price = total_value / total_quantity
-        pdf.ln(10)
-        pdf.cell(0, 10, txt=f"O'rtacha narx: {avg_price:.2f} so'm", ln=True)
-        if max_selling_product:
-            pdf.cell(0, 10, txt=f"Eng ko'p sotilgan tovar: {max_selling_product}", ln=True)
+        pdf.setFont("Helvetica-Bold", 14)
+        pdf.drawString(text_x, y_position, warehouse["location"])
+        y_position -= 20
 
-    pdf.output(file_name)
-    print(f"Hisobot saqlandi: {file_name}")
+        pdf.setFont("Helvetica", 12)
+        pdf.drawString(text_x, y_position, f"    Import qilingan tovarlar soni: {import_qilingan_tovarlar} ta")
+        y_position -= 15
+        pdf.drawString(text_x, y_position, f"    Export qilingan tovarlar soni: {export_qilingan_tovarlar} ta")
+        y_position -= 15
+        pdf.drawString(text_x, y_position, f"    Hozirda Mavjud Tovarlar Soni: {warehouse['current_capacity']} ta")
+        y_position -= 15
+        pdf.drawString(text_x, y_position, f"    Harajatlar: {xarajatlar}$ ")
+        y_position -= 15
+        pdf.drawString(text_x, y_position, f"    Kirgan summa: {kirgan_summa}$")
+        y_position -= 15
+        pdf.drawString(text_x, y_position, f"    Foyda: {foyda}$")
+        y_position -= 15
 
+        y_position -= 20  # Пробел перед следующим складом
+
+    # Завершаем документ
+    pdf.save()
+
+# Генерация PDF файла
+generate_pdf("hisobot.pdf")
