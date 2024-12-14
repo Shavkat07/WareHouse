@@ -5,7 +5,7 @@ from datetime import datetime
 from data import load_data_from_file
 
 
-def generate_pdf(file_name):
+def generate_report(file_name):
     start_date = datetime.fromisoformat(input("Boshlanish sanasini kiriting (yyyy-mm-dd): "))
     end_date = datetime.fromisoformat(input("Tugash sanasini kiriting (yyyy-mm-dd): "))
     ustama_foiz = 10
@@ -88,4 +88,3 @@ def generate_pdf(file_name):
     pdf.save()
 
 # Генерация PDF файла
-generate_pdf("hisobot.pdf")
