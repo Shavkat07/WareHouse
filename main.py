@@ -55,6 +55,12 @@ def back_to_menu():
         if back == 0:
             break
 
+def delete_voice_files():
+    for filename in os.listdir("Media/Voices"):
+        file_path = os.path.join("Media/Voices", filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
 menu = f"""
 {Colors.BOLD}{Colors.SOFT_PURPLE}{Colors.UNDERLINE}═════════════════════════════════════════════════════════════════════════{Colors.RESET}
 {Colors.LIGHT_BLUE}{Colors.ORQA_qora}             🌿  Welcome to the Tranquil WAREHOUSE System  🌿            {Colors.RESET}
@@ -138,10 +144,7 @@ def main():
                 play_voice_message("You selected Exit")
                 print("Exiting... Goodbye!")
                 pygame.mixer.music.unload()
-                for filename in os.listdir("Media/Voices"):
-                    file_path = os.path.join("Media/Voices", filename)
-                    if os.path.isfile(file_path):
-                        os.remove(file_path)
+                delete_voice_files()
                 return "Exit"
             else:
                 print("Noto'g'ri tanlov. Qaytadan urinib ko'ring.")
@@ -224,10 +227,7 @@ def main():
                 play_voice_message("You selected Exit")
                 print("Exiting... Goodbye!")
                 pygame.mixer.music.unload()
-                for filename in os.listdir("Media/Voices"):
-                    file_path = os.path.join("Media/Voices", filename)
-                    if os.path.isfile(file_path):
-                        os.remove(file_path)
+                delete_voice_files()
                 break
 
             else:
