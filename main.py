@@ -342,12 +342,28 @@ def main():
     def register_page():
         while True:
             clear_console()
-            print( "\n=== SYSTEM===" )
-            print( "1. Ro'yxatdan o'tish" )
-            print( "2. Log in" )
-            print( "3. Foydalanuvchilarni ko'rish" )
-            print( "0. Exit" )
-            choice = input( "Tanlovingizni kiriting: " ).strip()
+            print(
+                f"{Colors.BOLD}{Colors.SOFT_PURPLE}{Colors.UNDERLINE}═════════════════════════════════════════════════════════════════════════{Colors.RESET}" )
+            print(
+                f"{Colors.LIGHT_BLUE}{Colors.ORQA_qora}            🌿  Welcome to the Registration System  🌿                   {Colors.RESET}" )
+            print(
+                f"{Colors.SOFT_PURPLE}═════════════════════════════════════════════════════════════════════════{Colors.RESET}" )
+            print(
+                f"{Colors.ORQA_qora}🌟                                                                     🌟{Colors.RESET}" )
+            print(
+                f"{Colors.SOFT_GREEN}{Colors.ORQA_qora} {Colors.BOLD}   🍃  Please choose from the options below:  🍃                        {Colors.RESET}" )
+            print(
+                f"{Colors.SOFT_GREEN}{Colors.ORQA_qora}  1.  {Colors.SOFT_PINK} Register              📝                                          {Colors.RESET}" )
+            print(
+                f"{Colors.SOFT_GREEN}{Colors.ORQA_qora}  2.  {Colors.SOFT_PINK} Log In                🔑                                          {Colors.RESET}" )
+            print(
+                f"{Colors.SOFT_GREEN}{Colors.ORQA_qora}  3.  {Colors.SOFT_PINK} View Users            📜                                          {Colors.RESET}" )
+            print(
+                f"{Colors.SOFT_GREEN}{Colors.ORQA_qora}  0.  {Colors.SOFT_PINK} Exit                  🔚                                          {Colors.RESET}" )
+            print(
+                f"{Colors.SOFT_PURPLE}═════════════════════════════════════════════════════════════════════════{Colors.RESET}" )
+
+            choice = input( f"{Colors.GOLD}{Colors.BG_GRAY} Enter your choice: {Colors.RESET}" ).strip()
 
             if choice == "1":
                 if register() == "Logining":
