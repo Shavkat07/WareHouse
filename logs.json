@@ -1,0 +1,6 @@
+[
+    "Transaction ID: 5User who created this transaction: johndoeProduct ID: 2Transaction type: importQuantity: 17Date of transaction: 2024-12-10T17:00:34.629405Warehouse ID: 1",
+    "Transaction ID: 6User who created this transaction: johndoeProduct ID: 2Transaction type: exportQuantity: 100Date of transaction: 2024-12-10T17:10:50.074444Warehouse ID: 1",
+    "Transaction ID: 7User who created this transaction: johndoeProduct ID: 2Transaction type: exportQuantity: 17Date of transaction: 2024-12-10T17:12:33.300461Warehouse ID: 1",
+    "Transaction ID: 8User who created this transaction: johndoeProduct ID: 2Transaction type: importQuantity: 199Date of transaction: 2024-12-10T17:14:25.340157Warehouse ID: 1"
+]
