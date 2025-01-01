@@ -151,5 +151,23 @@
         "quantity": 100,
         "date": "2024-12-14T23:05:59.451587",
         "warehouse_id": 1
+    },
+    {
+        "id": 19,
+        "user": "shavkat",
+        "product_id": 2,
+        "transaction_type": "import",
+        "quantity": 90,
+        "date": "2024-12-16T09:50:47.945623",
+        "warehouse_id": 1
+    },
+    {
+        "id": 20,
+        "user": "shavkat",
+        "product_id": 5,
+        "transaction_type": "import",
+        "quantity": 40,
+        "date": "2024-12-19T10:05:50.887841",
+        "warehouse_id": 1
     }
 ]

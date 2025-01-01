@@ -14,7 +14,7 @@
         "name": "Acer Aspire 4",
         "price": "500$",
         "description": "good",
-        "quantity": 35,
+        "quantity": 125,
         "category": "Laptops",
         "supplier_id": 1,
         "warehouse_id": 1
@@ -44,7 +44,7 @@
         "name": "MacBook Air 13.6 M3 8/256GB SPACE GRAY USA",
         "price": "1121.64",
         "description": "MacBook Air ish va o'yin uchun juda mos keladi va M3 chipi dunyodagi eng mashhur noutbukni yanada kuchliroq qiladi. 18 soatlik batareya quvvati bilan siz super-portativ MacBook Air-ni istalgan joyga olib ketishingiz mumkin va MacBook Air juda yengil va hayotingizga bemalol mos keladi.",
-        "quantity": 10,
+        "quantity": 50,
         "category": "Laptops",
         "supplier_id": 2,
         "warehouse_id": 1
@@ -67,6 +67,16 @@
         "quantity": 100,
         "category": "Quloqchinlar",
         "supplier_id": 3,
+        "warehouse_id": 1
+    },
+    {
+        "id": 8,
+        "name": "Acer",
+        "price": "300",
+        "description": "Zur",
+        "quantity": 10,
+        "category": "Laptops",
+        "supplier_id": 2,
         "warehouse_id": 1
     }
 ]
